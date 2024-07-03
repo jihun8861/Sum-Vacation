@@ -49,11 +49,11 @@ const Footer = () => {
                     <Icon><RiKakaoTalkFill /></Icon>
                     <Icon><AiFillDiscord /></Icon>
                 </IconWrapper>
-                <h4>팀명 뭐로 하지?</h4>
+                <h4 style={{paddingBottom:"10px"}}>Tabs</h4>
                 <span>인제대학교 | 경남 김해시 인제로 197 P&N 동아리방 TEL.010-2362-8861 | 대표: 현지훈</span>
                 <span>본사: 부산광역시 사상구 가야대로 xxx번길 xx 4층</span>
                 <span>고객센터: 055-334-7111 | E-MAIL: ji55hun@oasis.inje.ac.kr</span>
-                <span style={{paddingTop:"10px",fontWeight:"bold"}}>Copyright ⓒ 2024 커스텀키보드 제조기업 팀명 All rights reserved.</span>
+                <span style={{paddingTop:"10px",fontWeight:"bold"}}>Copyright ⓒ 2024 커스텀키보드 제조기업 Tabs All rights reserved.</span>
             </Frame>
         </Container>
     );

@@ -29,18 +29,23 @@ const Frame = styled.div`
   background-color: white;
 `;
 
-const Logo = styled.div` // 임시 로고
-    display: flex;
-    font-size: 60px;
-    color: #7e8df7;
-    margin-left: 30px;
+const Logo = styled.div`
+  display: flex;
+  align-items: center;
+  width: 12%;
+  height: 100%;
+  border: solid 1px;
+  img {
+    width: 100%;
+    border: solid 1px;
+  }
 `;
 
 const LinkStyle = {
-    textDecoration: "none",
-    margin: "0px",
-    padding: "0px",
-  }
+  textDecoration: "none",
+  margin: "0px",
+  padding: "0px",
+};
 
 const Header = () => {
   const [hidden, setHidden] = useState(false);
@@ -73,9 +78,10 @@ const Header = () => {
     <Container hidden={hidden}>
       <Frame>
         <Logo>
-            <a href="/" style={LinkStyle}>Tabs</a>
+          <a href="/" style={LinkStyle}>
+            <img src="/images/logo.png" />
+          </a>
         </Logo>
-        
       </Frame>
     </Container>
   );
