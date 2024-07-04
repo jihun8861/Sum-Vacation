@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Layout from "../components/Layout";
-import Banner from "../components/Banner";
 import TextFrame from "../components/TextFrame";
 import ItemFrame1 from "../components/ItemFrame1";
 import ItemFrame2 from "../components/ItemFrame2";
@@ -21,7 +20,6 @@ const Frame1 = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-direction: row;
 `;
 
 const Frame2 = styled.div`
@@ -30,7 +28,6 @@ const Frame2 = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-direction: row;
   padding: 0 20px;
 `;
 
@@ -62,15 +59,25 @@ const RadioButton = styled.div`
   &:hover {
     background-color: #6d8cff;
   }
-
 `;
 
+const BannerContainer = styled.div`
+  width: 100%;
+  height: 500px;
+  background-image: url("/images/banner.png");
+  background-size: 100% 100%;
+  background-position: center;
+  margin-bottom: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 const HomeContent = () => {
   const items1 = [
-    { image: "/images/test1.jpg", text: "Test 1" },
-    { image: "/images/test2.jpg", text: "Test 2" },
-    { image: "/images/test3.jpg", text: "Test 3" },
+    { image: "/images/test0.jpg", text: "Test 1" },
+    { image: "/images/test0.jpg", text: "Test 2" },
+    { image: "/images/test0.jpg", text: "Test 3" },
   ];
 
   const items2 = [
@@ -106,36 +113,24 @@ const HomeContent = () => {
   };
 
   return (
+    <>
     <Container>
-      <Banner />
-
       <Frame1>
         {items1.map((item, index) => (
-          <ItemFrame1 
-            key={index} 
-            image={item.image} 
-            text={item.text} />
+          <ItemFrame1 key={index} image={item.image} text={item.text} />
         ))}
       </Frame1>
-
       <TextFrame>Popular Product</TextFrame>
-
       <Frame2>
         <ArrowIconBack onClick={handlePrev} />
-        {items2
-          .slice(currentIndex, currentIndex + itemsPerPage)
-          .map((item, index) => (
-            <ItemFrame2 
-              key={index} 
-              image={item.image} 
-              text={item.text} />
-          ))}
+        {items2.slice(currentIndex, currentIndex + itemsPerPage).map((item, index) => (
+          <ItemFrame2 key={index} image={item.image} text={item.text} />
+        ))}
         <ArrowIconFront onClick={handleNext} />
       </Frame2>
-
       <RadioButtonContainer>
         {Array.from({ length: totalPages }).map((_, index) => (
-          <RadioButton 
+          <RadioButton
             key={index}
             isActive={currentIndex / itemsPerPage === index}
             onClick={() => handleRadioClick(index)}
@@ -143,6 +138,7 @@ const HomeContent = () => {
         ))}
       </RadioButtonContainer>
     </Container>
+    </>
   );
 };
 

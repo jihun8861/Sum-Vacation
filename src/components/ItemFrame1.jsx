@@ -22,12 +22,30 @@ const TextFrame1 = styled.div`
   height: 30%;
   border: solid 1px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 `;
 
 const Text1 = styled.div`
     border: solid 1px;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+`
+
+const PurchaseBtn = styled.button`
+  width: 35%;
+  height: 35%;
+  background-color: #6d8cff;
+  color: white;
+  border: none;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  &:hover {
+    background-color: #5377ff;
 `
 
 const ItemFrame1 = ({image,text}) => {
@@ -37,6 +55,7 @@ const ItemFrame1 = ({image,text}) => {
       <ImageFrame1 image={image} />
       <TextFrame1>
         <Text1>{text}</Text1>
+        <PurchaseBtn>구매하기</PurchaseBtn>
       </TextFrame1>
       </Container>
     </>
