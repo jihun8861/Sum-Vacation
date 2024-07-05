@@ -1,22 +1,39 @@
 import React, { useState } from 'react';
 import styled from "styled-components";
-import Sign from "../components/Sign";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Layout from '../components/Layout';
+
+const Container = styled.div`
+  width: 1500px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+`;
 
 const SignUpFrame = styled.div`
-   width: 100%;
-   height: auto;
-`
+  width: 450px;
+  height: 700px;
+  border-radius: 15px;
+  border: solid 1px;
+  margin-top: 100px;
+  padding: 20px;
+`;
+
+const TitleText = styled.div`
+  width: 100%;
+  height: 20%;
+  font-size: 40px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 const Already = styled.div`
    margin: 0 0 14px;
    height: auto;
-`
-
-const Box = styled.div`
-   width: 100%;
 `
 
 const Left = styled.div`
@@ -30,38 +47,35 @@ const Right = styled.div`
    margin-top:7px;
 `
 
-const IdBox = styled.div`
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   border-radius: 8px;
-   padding: 10px;
-   margin-top: 8px;
-   background-color: #f6f6f6;
-   border: none;
+const InputBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  position: relative;
+  height: 50px;
+`;
+
+const Input = styled.input`
+  width: 100%;
+  height: 45px;
+  font-size: 14px;
+  border: solid 1px #dadada;
+  padding: 10px;
+  &:focus {
+    outline: none;
+  }
+`;
+
+const OverlapBtn = styled.button`
    width: 100%;
-   border: 1px solid transparent;
-   margin-bottom: 20px;
-
-   &:focus-within {
-         border-color: black;
-         background-color: white;
-   }
-`
-
-const Btn1 = styled.button`
-   min-width: 90px;
-   height: 50px;
-   padding: 0 20px;
+   height: 30px;
    font-size: 16px;
    font-weight: 500;
    border-radius: 10px;
    letter-spacing: -0.04em;
    border: 1px solid black;
-   background: black;
    color: #fff;
-   display: inline-block;
-   box-sizing: border-box;
    text-align: center;
    transition: all 0.4s;
    cursor: pointer;
@@ -78,53 +92,36 @@ const NameBox = styled.div`
    display: flex;
    flex-direction: column;
    align-items: center;
-   border-radius: 8px;
-   padding: 10px;
-   margin-top: 8px;
-   background-color: #f6f6f6;
-   border: none;
    width: 100%;
    border: 1px solid transparent;
    margin-bottom: 20px;
-
-   &:focus-within {
-         border-color: black;
-         background-color: white;
-   }
 `
 
 const PwBox = styled.div`
    display: flex;
    flex-direction: column;
    align-items: center;
-   border-radius: 8px;
-   padding: 10px;
-   margin-top: 8px;
    background-color: ${props => (props.error ? '#f6f6f6' : '#f6f6f6')};
    border: 1px solid ${props => (props.error ? '#c42237' : '#f6f6f6')};
    width: 100%;
    margin-bottom: 20px;
-
-   &:focus-within {
-         border-color: black;
-         background-color: white;
-   }
+   position: realative;
 `
 
 const EyeIcon = styled(FaEye)`
-   position: absolute;
-   left: 35%;
-   cursor: pointer;
-   margin-top: 5px;
-   font-size: 20px;
+  cursor: pointer;
+  font-size: 20px;
+  position: absolute;
+  right: 10px;
+  top: 12px;
 `;
 
 const EyeIcon2 = styled(FaEyeSlash)`
-   position: absolute;
-   left: 35%;
-   cursor: pointer;
-   margin-top: 5px;
-   font-size: 20px;
+  cursor: pointer;
+  font-size: 20px;
+  position: absolute;
+  right: 10px;
+  top: 12px;
 `;
 
 const ErrorMessage = styled.h3`
@@ -151,75 +148,43 @@ const PwOkBox = styled.div`
    display: flex;
    flex-direction: column;
    align-items: center;
-   border-radius: 8px;
-   padding: 10px;
-   margin-top: 8px;
-   background-color: #f6f6f6;
-   border: none;
-   width: 100%;
    border: 1px solid transparent;
    border-color: ${props => props.error ? '#c42237' : 'transparent'};
    margin-bottom: 20px;
-
-   &:focus-within {
-         border-color: black;
-         background-color: white;
-   }
 `
 
-const Input = styled.input`
-   width: 100%;
-   outline: none;
-   border: none;
-   height: 28px;
-   font-size: 16px;
-   background-color: #f6f6f6;
+const SignUpBtn = styled.button`
+  width: 100%;
+  height: 50px;
+  padding: 0 20px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  background: #6d8cff;
+  border: 1px solid rgb(141, 35, 41);
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+  margin-bottom: 40px;
 
-   &::placeholder {
-         color: #888896;
-   }
+  &:hover {
+    background: white;
+    color: #6d8cff;
+    border-color: #6d8cff;
+  }
 
-   &:focus-within {
-         background-color: white;
-   }
-`
-
-const NewBtn = styled.button`
-   float: right;
-   min-width: 90px;
-   height: 50px;
-   padding: 0 20px;
-   font-size: 16px;
-   font-weight: 500;
-   border-radius: 90px;
-   letter-spacing: -0.04em;
-   background: #be2237;
-   border: 1px solid rgb(141, 35, 41);
-   color: #fff;
-   display: inline-block;
-   box-sizing: border-box;
-   text-align: center;
-   transition: all 0.4s;
-   cursor: pointer;
-   font-weight: bold;
-
-   &:hover {
-         background: rgb(165, 35, 41);
-   }
-
-   &:disabled {
-         background-color: #dadada;
-         color: white;
-         cursor: not-allowed;
-         border: 1px;
-   }
+  &:disabled {
+    background-color: #dadada;
+    color: white;
+    cursor: not-allowed;
+    border: 1px;
+  }
 `;
 
 const LinkStyle = {
    textDecoration: 'none',
-   color: '#65997c',
+   color: '#6d8cff',
    marginLeft: "7px",
-   color: "#be2237"
 }
 
 const SignUpContent = () => {
@@ -347,16 +312,15 @@ const SignUpContent = () => {
    };
 
    return (
+      <Container>
       <SignUpFrame>
-         <>
+         <TitleText>회원가입</TitleText>
             <Already>
                <span>이미 계정이 있으신가요?</span>
                <a href="/SignIn" style={LinkStyle}>로그인</a>
             </Already>
-
-            <Box>
                <Left>
-                  <IdBox>
+                  <InputBox>
                      <Input
                         type="text"
                         placeholder="아이디를 입력해주세요"
@@ -364,17 +328,16 @@ const SignUpContent = () => {
                         onChange={handleId}
                         onKeyDown={handleKeyDown}
                      />                     
-                  </IdBox>
+                  </InputBox>
                   {idError && <ErrorMessage>{idError}</ErrorMessage>}
                      {idSuccess && <SuccessMessage>{idSuccess}</SuccessMessage>}
                </Left>
 
                <Right>
-                  <Btn1 onClick={idCheck} disabled={!idEntered}>
+                  <OverlapBtn onClick={idCheck} disabled={!idEntered}>
                      <span>중복확인</span>
-                  </Btn1>
+                  </OverlapBtn>
                </Right>
-            </Box>
 
             <NameBox>
                <Input
@@ -413,16 +376,16 @@ const SignUpContent = () => {
             </PwOkBox>
             {!confirmPwValid && confirmPw.length > 0 && <ErrorMessage>비밀번호가 일치하지 않습니다.</ErrorMessage>}
 
-            <NewBtn onClick={onClickSignUpBtn} disabled={notAllow}>
+            <SignUpBtn onClick={onClickSignUpBtn} disabled={notAllow}>
                <span>계정만들기</span>
-            </NewBtn>
-         </>
+            </SignUpBtn>
       </SignUpFrame>
+      </Container>
    );
 };
 
 const SignUp = () => {
-   return <Sign props={<SignUpContent />} />;
+   return <Layout isHome={false} children={<SignUpContent />} />;
 };
 
 export default SignUp;

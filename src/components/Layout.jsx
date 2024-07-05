@@ -63,8 +63,7 @@ const ShareIcon = styled(HiShare)`
   font-size: 16px;
 `;
 
-
-const Layout = ({ props }) => {
+const Layout = ({ isHome, children }) => {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -75,10 +74,10 @@ const Layout = ({ props }) => {
   return (
     <>
       <Container>
-        <BannerContainer/>
-        <Header />
+        {isHome && <BannerContainer />}
+        <Header isHome={isHome} />
         <Main>
-          {props}
+          {children}
           <Share>
             <ShareIcon />
           </Share>

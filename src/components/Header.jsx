@@ -14,12 +14,8 @@ const Container = styled.div`
   position: fixed;
   top: 0;
   transition: top 0.5s ease-in-out, background-color 0.3s ease-in-out;
- /* ${(props) =>
-    props.hidden &&
-    css`
-      top: -150px;
-    `} */
   background-color: ${(props) => (props.atTop ? "transparent" : "white")};
+  border: solid 1px;
 `;
 
 const Frame = styled.div`
@@ -82,12 +78,13 @@ const LinkStyle = (atTop) => ({
   color: atTop ? "white" : "black",
 });
 
-const Header = () => {
+const Header = ({ isHome }) => {
   const [hidden, setHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const [atTop, setAtTop] = useState(true);
+  const [atTop, setAtTop] = useState(isHome);
 
   const handleScroll = () => {
+    if (!isHome) return;
     const currentScrollY = window.scrollY;
     setAtTop(currentScrollY === 0);
     if (currentScrollY > lastScrollY && currentScrollY > 100) {
@@ -99,11 +96,15 @@ const Header = () => {
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [lastScrollY]);
+    if (isHome) {
+      window.addEventListener("scroll", handleScroll);
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
+    } else {
+      setAtTop(false);
+    }
+  }, [isHome, lastScrollY]);
 
   return (
     <Container hidden={hidden} atTop={atTop}>
