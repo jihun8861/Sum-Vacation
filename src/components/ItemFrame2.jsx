@@ -6,6 +6,7 @@ const Container = styled.div`
   height: 350px;
   border: solid 1px;
   cursor: pointer;
+  border: solid 1px;
 `;
 
 const ImageFrame2 = styled.div`

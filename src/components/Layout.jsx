@@ -15,13 +15,12 @@ const Container = styled.div`
 const BannerContainer = styled.div`
   width: 100%;
   height: 100vh;
-  background-image: url("/images/banner2.png");
+  background-image: url("/images/banner.png");
   background-size: 100% 100%;
   background-position: center;
 `;
 
 const Main = styled.div`
-  border: solid 1px;
   display: flex;
   flex-direction: column;
   margin-top: 100px;
@@ -29,16 +28,21 @@ const Main = styled.div`
 
 const TopArrow = styled.div`
   position: fixed;
-  border: solid 2px;
-  width: 40px;
-  height: 40px;
+  border: solid 1px;
+  width: 50px;
+  height: 50px;
   right: 20px;
-  bottom: 20px;
+  bottom: 60px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: white;
+    &:hover {
+    background: #6d8cff;
+    color: white;
+    border: none;
+  }
 `;
 
 const TopArrowIcon = styled(FaArrowUp)`
@@ -47,16 +51,21 @@ const TopArrowIcon = styled(FaArrowUp)`
 
 const Share = styled.div`
   position: fixed;
-  border: solid 2px;
-  width: 40px;
-  height: 40px;
+  border: solid 1px;
+  width: 50px;
+  height: 50px;
   right: 20px;
-  bottom: 70px;
+  bottom: 120px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: white;
+  &:hover {
+    background: #6d8cff;
+    color: white;
+    border: none;
+  }
 `;
 
 const ShareIcon = styled(HiShare)`

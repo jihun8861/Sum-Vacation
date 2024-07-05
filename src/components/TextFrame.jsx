@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   width: 100%;
-  height: 180px;
+  height: 100px;
   border: solid 1px;
   display: flex;
   align-items: center;
@@ -16,10 +16,8 @@ const Frame = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border: solid 1px;
-  padding-top: 40px;
-  font-family: 'Black Han Sans', sans-serif; /* 폰트 패밀리 설정 */
-  font-size: 30px;
+  font-size: 50px;
+  font-weight: bold;
 `;
 
 const TextFrame = ({ children }) => {

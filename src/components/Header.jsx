@@ -13,9 +13,9 @@ const Container = styled.div`
   justify-content: center;
   position: fixed;
   top: 0;
-  transition: top 0.5s ease-in-out, background-color 0.3s ease-in-out;
+  transition: top 0.5s ease-in-out, background-color 0.3s ease-in-out, border-bottom 0.3s ease-in-out;
   background-color: ${(props) => (props.atTop ? "transparent" : "white")};
-  border: solid 1px;
+  border-bottom: ${(props) => (props.isHome ? "none" : "1px solid #e8e8e8")};
 `;
 
 const Frame = styled.div`
@@ -41,7 +41,7 @@ const Logo = styled.div`
   width: 100%;
   height: 100%;
   img {
-    width: 100%;
+    width: 80%;
   }
 `;
 
@@ -107,12 +107,12 @@ const Header = ({ isHome }) => {
   }, [isHome, lastScrollY]);
 
   return (
-    <Container hidden={hidden} atTop={atTop}>
+    <Container hidden={hidden} atTop={atTop} isHome={isHome}>
       <Frame>
         <Section1>
           <Logo>
             <a href="/" style={LinkStyle(atTop)}>
-              <img src="/images/logo.png" alt="Logo" />
+              <img src="/images/logo2.png" alt="Logo" />
             </a>
           </Logo>
         </Section1>

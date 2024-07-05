@@ -11,7 +11,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: solid 1px;
+  background-color: #f5f5f5;
 `;
 
 const Frame = styled.div`

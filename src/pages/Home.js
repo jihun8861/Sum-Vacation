@@ -1,11 +1,14 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import { useInView } from "react-intersection-observer";
+import styled, { keyframes } from "styled-components";
 import Layout from "../components/Layout";
 import TextFrame from "../components/TextFrame";
 import ItemFrame1 from "../components/ItemFrame1";
 import ItemFrame2 from "../components/ItemFrame2";
+import ItemFrame3 from "../components/ItemFrame3";
 import { MdArrowForwardIos, MdArrowBackIosNew } from "react-icons/md";
 
+// 스타일 및 애니메이션 정의
 const Container = styled.div`
   width: 1500px;
   height: 100%;
@@ -29,6 +32,38 @@ const Frame2 = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
+`;
+
+const slideUp = keyframes`
+  from {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+`;
+
+const AnimatedFrame3 = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+  p {
+    font-size: 18px;
+    color: #888888;
+  }
+
+  &.visible {
+    animation: ${slideUp} 1s forwards;
+    opacity: 1;
+  }
 `;
 
 const ArrowIconFront = styled(MdArrowForwardIos)`
@@ -55,6 +90,7 @@ const RadioButton = styled.div`
   border-radius: 5px;
   margin: 0 5px;
   cursor: pointer;
+  margin-bottom: 60px;
 
   &:hover {
     background-color: #6d8cff;
@@ -100,8 +136,12 @@ const HomeContent = () => {
     setCurrentIndex(index * itemsPerPage);
   };
 
+  const { ref, inView } = useInView({
+    triggerOnce: false, // 한 번만 트리거되도록 설정
+    threshold: 0.08, // 10%가 보일 때 트리거되도록 설정
+  });
+
   return (
-    <>
     <Container>
       <Frame1>
         {items1.map((item, index) => (
@@ -125,8 +165,12 @@ const HomeContent = () => {
           />
         ))}
       </RadioButtonContainer>
+      <AnimatedFrame3 ref={ref} className={inView ? 'visible' : ''}>
+        <TextFrame>Tabs</TextFrame>
+        <p>3D Custom Keyboard</p>
+        <ItemFrame3 />
+      </AnimatedFrame3>
     </Container>
-    </>
   );
 };
 

@@ -16,10 +16,7 @@ const Container = styled.div`
 const SignInFrame = styled.div`
   width: 450px;
   height: 700px;
-  border-radius: 15px;
-  border: solid 1px;
-  margin-top: 100px;
-  padding: 20px;
+  margin-top: 80px;
 `;
 
 const TitleText = styled.div`
@@ -35,7 +32,7 @@ const TitleText = styled.div`
 const Text = styled.div`
   width: auto;
   height: auto;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
   margin-bottom: 10px;
 `;
@@ -84,15 +81,15 @@ const New = styled.div`
   margin-bottom: 20px;
 `;
 
-const Btn = styled.button`
+const SignInBtn = styled.button`
   width: 100%;
-  height: 50px;
+  height: 55px;
   padding: 0 20px;
   font-size: 16px;
   font-weight: 600;
   letter-spacing: -0.04em;
   background: #6d8cff;
-  border: 1px solid rgb(141, 35, 41);
+  border: solid 1px;
   color: #fff;
   text-align: center;
   cursor: pointer;
@@ -108,7 +105,7 @@ const Btn = styled.button`
     background-color: #dadada;
     color: white;
     cursor: not-allowed;
-    border: 1px;
+    border: none;
   }
 `;
 
@@ -136,10 +133,9 @@ const Bottom = styled.div`
 
 const Kakao = styled.button`
   width: 100%;
-  height: 50px;
+  height: 55px;
   background-color: #fee500;
   border: none;
-  border-radius: 8px;
   font-size: 16px;
   font-weight: bold;
   color: #000;
@@ -268,9 +264,9 @@ const SignInContent = () => {
           </a>
         </New>
 
-        <Btn onClick={onClickConfirmButton} disabled={notAllow}>
+        <SignInBtn onClick={onClickConfirmButton} disabled={notAllow}>
           <span>로그인</span>
-        </Btn>
+        </SignInBtn>
 
         <Bottom>
           <h4>또는</h4>
