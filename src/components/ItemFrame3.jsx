@@ -57,9 +57,12 @@ const ItemFrame3 = () => {
         <CustomSpace>
 
         </CustomSpace>
+        
+        <a href="Custom" style={LinkStyle}>
         <CustomBtn>
-            <a href="Custom" style={LinkStyle}>커스텀 하러 가기</a><ArrowIcon/>
+            커스텀 하러 가기<ArrowIcon/>
         </CustomBtn>
+        </a>
       </Frame>
     </Container>
   );

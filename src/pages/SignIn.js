@@ -171,8 +171,8 @@ const SignInContent = () => {
   const [pwType, setPwType] = useState("password");
   const [showPassword, setShowPassword] = useState(false);
 
-  const REST_API_KEY = process.env.REACT_APP_REST_API_KEY;
-  const REDIRECT_URI = process.env.REACT_APP_REDIRECT_URI;
+  const REST_API_KEY = '9b8440c52cc5a7dd32647c76aade83d3';
+  const REDIRECT_URI = 'http://localhost:3000/user/kakao/login';
   const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code&prompt=login`;
 
   const loginHandler = () => {
@@ -199,19 +199,18 @@ const SignInContent = () => {
   const onClickConfirmButton = async () => {
     try {
       const response = await axios.post(
-        "https://port-0-cpbeck-hdoly2altu7slne.sel5.cloudtype.app" +
-          "/api/users/login",
+        "https://port-0-edcustom-lxx5p8dd0617fae9.sel5.cloudtype.app/login",
         {
-          data: {
-            name: id,
-            password: pw,
+            email: id,
+            password: pw
           },
-        }
       );
-      localStorage.setItem("token", response.data.token);
+      console.log(response.data.token);
+      localStorage.setItem("token", JSON.stringify(response.data.token));
       navigate("/");
     } catch (error) {
       alert("회원 정보가 일치하지 않습니다.");
+      
     }
   };
 

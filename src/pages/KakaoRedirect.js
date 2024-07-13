@@ -18,11 +18,9 @@ const KakaoRedirect = () => {
         }
 
         console.log("인증 코드:", code);
-        const response = await axios.post(`${process.env.REACT_APP_BACK_END}`, {
-          data: {
+        const response = await axios.post(`https://port-0-edcustom-lxx5p8dd0617fae9.sel5.cloudtype.app/user/kakao/login`, {
             "code": code,
-          },
-        });
+          });
 
         console.log("백엔드 응답:", response.data);
 
@@ -47,6 +45,7 @@ const KakaoRedirect = () => {
   if (loading) {
     return (
       <>
+      로딩중
       </>
     );
   }

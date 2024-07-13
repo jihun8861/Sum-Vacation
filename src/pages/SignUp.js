@@ -189,19 +189,19 @@ const LinkStyle = {
 
 const SignUpContent = () => {
   const [name, setName] = useState("");
-  const [id, setId] = useState("");
+  const [email, setEmail] = useState(""); // Changed from 'id' to 'email'
   const [pw, setPw] = useState("");
   const [confirmPw, setConfirmPw] = useState("");
-  const [idEntered, setIdEntered] = useState(false);
+  const [emailEntered, setEmailEntered] = useState(false); // Changed from 'idEntered' to 'emailEntered'
   const [isDuplicateChecked, setIsDuplicateChecked] = useState(false); // 중복 확인 상태
 
-  const [idValid, setIdValid] = useState(false);
+  const [emailValid, setEmailValid] = useState(false); // Changed from 'idValid' to 'emailValid'
   const [nameValid, setNameValid] = useState(false);
   const [pwValid, setPwValid] = useState(false);
   const [confirmPwValid, setConfirmPwValid] = useState(false);
 
-  const [idError, setIdError] = useState("");
-  const [idSuccess, setIdSuccess] = useState("");
+  const [emailError, setEmailError] = useState(""); // Changed from 'idError' to 'emailError'
+  const [emailSuccess, setEmailSuccess] = useState(""); // Changed from 'idSuccess' to 'emailSuccess'
 
   const [notAllow, setNotAllow] = useState(true);
 
@@ -211,43 +211,43 @@ const SignUpContent = () => {
 
   const navigate = useNavigate();
 
-  const handleId = (e) => {
-    const newId = e.target.value;
-    setId(newId);
-    setIdEntered(newId.length > 0);
-    setIdValid(newId.length > 0);
-    setIsDuplicateChecked(false); // 아이디가 변경되면 중복 확인 상태를 초기화
-    setIdError("");
-    setIdSuccess("");
-    updateButtonState(newId, name, pw, confirmPw);
+  const handleEmail = (e) => {
+    const newEmail = e.target.value;
+    setEmail(newEmail);
+    setEmailEntered(newEmail.length > 0);
+    setEmailValid(newEmail.length > 0);
+    setIsDuplicateChecked(false); // 이메일이 변경되면 중복 확인 상태를 초기화
+    setEmailError("");
+    setEmailSuccess("");
+    updateButtonState(newEmail, name, pw, confirmPw);
   };
 
   const handleName = (e) => {
     const newName = e.target.value;
     setName(newName);
     setNameValid(newName.length > 0);
-    updateButtonState(id, newName, pw, confirmPw);
+    updateButtonState(email, newName, pw, confirmPw);
   };
 
   const handlePw = (e) => {
     const newPw = e.target.value;
     setPw(newPw);
     setPwValid(newPw.length >= 4);
-    updateButtonState(id, name, newPw, confirmPw);
+    updateButtonState(email, name, newPw, confirmPw);
   };
 
   const handleConfirmPw = (e) => {
     const newConfirmPw = e.target.value;
     setConfirmPw(newConfirmPw);
     setConfirmPwValid(newConfirmPw === pw);
-    updateButtonState(id, name, pw, newConfirmPw);
+    updateButtonState(email, name, pw, newConfirmPw);
   };
 
-  const updateButtonState = (newId, newName, newPw, newConfirmPw) => {
+  const updateButtonState = (newEmail, newName, newPw, newConfirmPw) => {
     setNotAllow(
       !(
         (
-          newId.length > 0 &&
+          newEmail.length > 0 &&
           newName.length > 0 &&
           newPw.length >= 4 &&
           newPw === newConfirmPw &&
@@ -272,12 +272,12 @@ const SignUpContent = () => {
     if (!notAllow) {
       alert("회원가입에 성공했습니다.");
       axios.post(
-        "https://port-0-cpbeck-hdoly2altu7slne.sel5.cloudtype.app/api/users/create",
+        "https://port-0-edcustom-lxx5p8dd0617fae9.sel5.cloudtype.app/register",
         {
           data: {
-            name: id,
+            name: name, // Changed from 'id' to 'email'
+            email: email,
             password: pw,
-            nick_name: name,
           },
         }
       );
@@ -287,14 +287,14 @@ const SignUpContent = () => {
     }
   };
 
-  const idCheck = async () => {
+  const emailCheck = async () => {
     try {
       const response = await axios.post(
         "https://port-0-cpbeck-hdoly2altu7slne.sel5.cloudtype.app/api/users/check_duplicate",
         {
           data: {
             id: 0,
-            name: id,
+            name: email, // Changed from 'id' to 'email'
             nick_name: "string",
             authorization: "string",
           },
@@ -302,20 +302,20 @@ const SignUpContent = () => {
       );
 
       if (response.data == null) {
-        setIdError("");
-        setIdSuccess("사용 가능한 아이디입니다.");
+        setEmailError("");
+        setEmailSuccess("사용 가능한 이메일입니다.");
         setIsDuplicateChecked(true);
-        updateButtonState(id, name, pw, confirmPw);
+        updateButtonState(email, name, pw, confirmPw);
       } else {
-        setIdError("이미 사용중인 아이디입니다.");
-        setIdSuccess("");
+        setEmailError("이미 사용중인 이메일입니다.");
+        setEmailSuccess("");
         setIsDuplicateChecked(false);
       }
     } catch (error) {
-      setIdError("");
-      setIdSuccess("사용 가능한 아이디입니다.");
+      setEmailError("");
+      setEmailSuccess("사용 가능한 이메일입니다.");
       setIsDuplicateChecked(true);
-      updateButtonState(id, name, pw, confirmPw);
+      updateButtonState(email, name, pw, confirmPw);
     }
   };
 
@@ -333,18 +333,18 @@ const SignUpContent = () => {
           <InputBox>
             <Input
               type="text"
-              placeholder="아이디를 입력해주세요"
-              value={id}
-              onChange={handleId}
+              placeholder="이메일을 입력해주세요" // Changed placeholder from '아이디를 입력해주세요' to '이메일을 입력해주세요'
+              value={email}
+              onChange={handleEmail}
               onKeyDown={handleKeyDown}
             />
           </InputBox>
-          {idError && <ErrorMessage>{idError}</ErrorMessage>}
-          {idSuccess && <SuccessMessage>{idSuccess}</SuccessMessage>}
+          {emailError && <ErrorMessage>{emailError}</ErrorMessage>}
+          {emailSuccess && <SuccessMessage>{emailSuccess}</SuccessMessage>}
         </Left>
 
         <Right>
-          <OverlapBtn onClick={idCheck} disabled={!idEntered}>
+          <OverlapBtn onClick={emailCheck} disabled={!emailEntered}>
             <span>중복확인</span>
           </OverlapBtn>
         </Right>
