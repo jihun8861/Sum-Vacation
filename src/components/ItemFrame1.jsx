@@ -5,7 +5,6 @@ const Container = styled.div`
   width: 32%;
   height: 520px;
   border: solid 1px;
-  cursor: pointer;
   margin-bottom: 100px;
 `;
 
