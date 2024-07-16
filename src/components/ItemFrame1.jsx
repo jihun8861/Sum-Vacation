@@ -8,7 +8,7 @@ const Container = styled.div`
   margin-bottom: 100px;
 `;
 
-const ImageFrame1 = styled.div`
+const ImageFrame = styled.div`
   width: 100%;
   height: 70%;
   border: solid 1px;
@@ -17,7 +17,7 @@ const ImageFrame1 = styled.div`
   background-position: center;
 `;
 
-const TextFrame1 = styled.div`
+const TextFrame = styled.div`
   width: 100%;
   height: 30%;
   border: solid 1px;
@@ -27,7 +27,7 @@ const TextFrame1 = styled.div`
   justify-content: center;
 `;
 
-const Text1 = styled.div`
+const Text = styled.div`
     border: solid 1px;
     font-size: 24px;
     font-weight: bold;
@@ -48,18 +48,18 @@ const PurchaseBtn = styled.button`
     background-color: #5377ff;
 `
 
-const ItemFrame1 = ({image,text}) => {
+const ItemFrame3 = ({image,text}) => {
   return (
     <>
       <Container>
-      <ImageFrame1 image={image} />
-      <TextFrame1>
-        <Text1>{text}</Text1>
+      <ImageFrame image={image} />
+      <TextFrame>
+        <Text>{text}</Text>
         <PurchaseBtn>구매하기</PurchaseBtn>
-      </TextFrame1>
+      </TextFrame>
       </Container>
     </>
   );
 };
 
-export default ItemFrame1;
+export default ItemFrame3;

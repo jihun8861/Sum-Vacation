@@ -4,19 +4,19 @@ import { HiArrowLongRight } from "react-icons/hi2";
 
 const Container = styled.div`
   width: 100%;
-  height: 350px;
+  height: 600px;
   display: flex;
-  align-items: center;
   justify-content: center;
 `;
 
 const Frame = styled.div`
   width: 80%;
-  height: 100%;
+  height: 350px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-top: 50px;
 `;
 
 const CustomSpace = styled.div`
@@ -24,7 +24,7 @@ const CustomSpace = styled.div`
   height: 70%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
 `;
 
 const CustomIconTextWrapper = styled.div`
@@ -49,7 +49,8 @@ const CustomTextSpace = styled.div`
   align-items: center;
   justify-content: center;
   width: auto;
-  height: auto;
+  height: 50px;
+
 `;
 
 const CustomBtn = styled.button`
@@ -63,7 +64,7 @@ const CustomBtn = styled.button`
   background: transparent;
   font-weight: bold;
   cursor: pointer;
-  margin-top: 20px;
+  margin-top: 50px;
 `;
 
 const ArrowIcon = styled(HiArrowLongRight)`

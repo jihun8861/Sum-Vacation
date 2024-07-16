@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 import Layout from "../components/Layout";
 import TextFrame from "../components/TextFrame";
 import ItemFrame1 from "../components/ItemFrame1";
@@ -17,23 +17,6 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const Frame1 = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const Frame2 = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-`;
-
 const slideUp = keyframes`
   from {
     transform: translateY(100px);
@@ -41,11 +24,28 @@ const slideUp = keyframes`
   }
   to {
     transform: translateY(0);
-    opacity: 1;
   }
 `;
 
-const AnimatedFrame3 = styled.div`
+const slideLeft = keyframes`
+  from {
+     opacity: 0;
+  }
+  to {
+     opacity: 1;
+  }
+`;
+
+const slideRight = keyframes`
+  from {
+     opacity: 0;
+  }
+  to {
+     opacity: 1;
+  }
+`;
+
+const Frame1 = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
@@ -64,6 +64,31 @@ const AnimatedFrame3 = styled.div`
     animation: ${slideUp} 1s forwards;
     opacity: 1;
   }
+`;
+
+const Frame2 = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const Frame3 = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px 20px;
+  border: solid 1px;
+`;
+
+const ItemFrame2Wrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-evenly;
 `;
 
 const ArrowIconFront = styled(MdArrowForwardIos)`
@@ -86,7 +111,7 @@ const RadioButtonContainer = styled.div`
 const RadioButton = styled.div`
   width: 10px;
   height: 10px;
-  background-color: ${({ isActive }) => (isActive ? '#6d8cff' : 'lightgrey')};
+  background-color: ${({ isActive }) => (isActive ? "#6d8cff" : "lightgrey")};
   border-radius: 5px;
   margin: 0 5px;
   cursor: pointer;
@@ -105,57 +130,84 @@ const HomeContent = () => {
   ];
 
   const items2 = [
-    { image: "/images/keyboard1.png", text: "Keyboard 1" },
-    { image: "/images/keyboard2.png", text: "Keyboard 2" },
-    { image: "/images/keyboard3.png", text: "Keyboard 3" },
-    { image: "/images/keyboard4.png", text: "Keyboard 4" },
-    { image: "/images/keyboard5.png", text: "Keyboard 5" },
-    { image: "/images/keyboard6.jpg", text: "Keyboard 6" },
-    { image: "/images/keyboard7.png", text: "Keyboard 7" },
-    { image: "/images/keyboard8.jpg", text: "Keyboard 8" },
+    { image: "/images/keyboard1.png", hoverImage: "/images/keyboard1-1.png", text: "몬스타기어 YAONG67 야옹67 아크릴 키보드" },
+    { image: "/images/keyboard2.png", hoverImage: "/images/keyboard2-1.png", text: "몬스타기어 닌자87PRO ALU 스페셜 에디션 풀알루미늄 커스텀 키보드" },
+    { image: "/images/keyboard3.png", hoverImage: "/images/keyboard3-1.png", text: "[공장풀윤활] 몬스타기어 닌자96PRO LCD (Ver.게이트론)" },
+    { image: "/images/keyboard4.png", hoverImage: "/images/keyboard4-1.png", text: "[수제풀윤활] 몬스타기어 닌자 104PRO LCD (Ver.게이트론)" },
+    { image: "/images/keyboard5.png", hoverImage: "/images/keyboard5-1.png", text: "몬스타기어 클래식 TKL 아크릴 / 아델리 스위치 투명키보드 유무선 풀윤활 커스텀 키보드" },
+    { image: "/images/keyboard6.png", hoverImage: "/images/keyboard6-1.png", text: "몬스타기어 닌자87PRO V2 G(Ver.게이트론)" },
+    { image: "/images/keyboard7.png", hoverImage: "/images/keyboard7-1.png", text: "몬스타기어 네모67 커스텀 키보드" },
+    { image: "/images/keyboard8.png", hoverImage: "/images/keyboard8-1.png", text: "FEKER 앨리스98 LCD 키보드" },
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [slideDirection, setSlideDirection] = useState(null);
   const itemsPerPage = 4;
-
   const totalPages = Math.ceil(items2.length / itemsPerPage);
+
+  useEffect(() => {
+    if (slideDirection) {
+      const timeout = setTimeout(() => {
+        setSlideDirection(null);
+      }, 500);
+      return () => clearTimeout(timeout);
+    }
+  }, [slideDirection]);
 
   const handleNext = () => {
     if (currentIndex + itemsPerPage < items2.length) {
+      setSlideDirection("left");
       setCurrentIndex(currentIndex + itemsPerPage);
     }
   };
 
   const handlePrev = () => {
     if (currentIndex - itemsPerPage >= 0) {
+      setSlideDirection("right");
       setCurrentIndex(currentIndex - itemsPerPage);
     }
   };
 
   const handleRadioClick = (index) => {
+    if (index * itemsPerPage > currentIndex) {
+      setSlideDirection("left");
+    } else if (index * itemsPerPage < currentIndex) {
+      setSlideDirection("right");
+    }
     setCurrentIndex(index * itemsPerPage);
   };
 
   const { ref, inView } = useInView({
-    triggerOnce: false, // 한 번만 트리거되도록 설정
-    threshold: 0.08, // 10%가 보일 때 트리거되도록 설정
+    triggerOnce: false,
+    threshold: 0.08,
   });
 
   return (
     <Container>
-      <Frame1>
+      <Frame1 ref={ref} className={inView ? "visible" : ""}>
+        <TextFrame>Tabs</TextFrame>
+        <p>3D Custom Keyboard</p>
+        <ItemFrame3 />
+      </Frame1>
+
+      <Frame2>
         {items1.map((item, index) => (
           <ItemFrame1 key={index} image={item.image} text={item.text} />
         ))}
-      </Frame1>
-      <TextFrame>Popular Product</TextFrame>
-      <Frame2>
-        <ArrowIconBack onClick={handlePrev} />
-        {items2.slice(currentIndex, currentIndex + itemsPerPage).map((item, index) => (
-          <ItemFrame2 key={index} image={item.image} text={item.text} />
-        ))}
-        <ArrowIconFront onClick={handleNext} />
       </Frame2>
+
+      <TextFrame>Popular Product</TextFrame>
+      <Frame3>
+        <ArrowIconBack onClick={handlePrev} />
+        <ItemFrame2Wrapper slideDirection={slideDirection}>
+          {items2
+            .slice(currentIndex, currentIndex + itemsPerPage)
+            .map((item, index) => (
+              <ItemFrame2 key={currentIndex + index} image={item.image} hoverImage={item.hoverImage} text={item.text} />
+            ))}
+        </ItemFrame2Wrapper>
+        <ArrowIconFront onClick={handleNext} />
+      </Frame3>
       <RadioButtonContainer>
         {Array.from({ length: totalPages }).map((_, index) => (
           <RadioButton
@@ -165,11 +217,6 @@ const HomeContent = () => {
           />
         ))}
       </RadioButtonContainer>
-      <AnimatedFrame3 ref={ref} className={inView ? 'visible' : ''}>
-        <TextFrame>Tabs</TextFrame>
-        <p>3D Custom Keyboard</p>
-        <ItemFrame3 />
-      </AnimatedFrame3>
     </Container>
   );
 };

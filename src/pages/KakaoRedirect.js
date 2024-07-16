@@ -18,22 +18,28 @@ const KakaoRedirect = () => {
         }
 
         console.log("인증 코드:", code);
-        const response = await axios.post(`https://port-0-edcustom-lxx5p8dd0617fae9.sel5.cloudtype.app/user/kakao/login`, {
-            "code": code,
-          });
+        const response = await axios.post(
+          "https://port-0-edcustom-lxx5p8dd0617fae9.sel5.cloudtype.app/social/kakao/login",
+          {
+            "code": code
+          }
+        );
 
         console.log("백엔드 응답:", response.data);
 
         const { token, account } = response.data;
-        localStorage.setItem('token', token);
-        
+        localStorage.setItem("token", token);
+
         // 로그인 성공 확인 로그
         console.log("로그인 성공:", { token, account });
 
         setLoading(false);
         navigate("/");
       } catch (error) {
-        console.error("Kakao login failed:", error.response ? error.response.data : error.message);
+        console.error(
+          "Kakao login failed:",
+          error.response ? error.response.data : error.message
+        );
         setError("로그인에 실패했습니다. 다시 시도해주세요.");
         setLoading(false);
       }
@@ -43,11 +49,7 @@ const KakaoRedirect = () => {
   }, [code, navigate]);
 
   if (loading) {
-    return (
-      <>
-      로딩중
-      </>
-    );
+    return <></>;
   }
 
   if (error) {

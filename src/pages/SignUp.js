@@ -78,7 +78,7 @@ const OverlapBtn = styled.button`
   transition: all 0.4s;
   cursor: pointer;
 
-      &:hover {
+  &:hover {
     background: #5377ff;
   }
 
@@ -189,24 +189,22 @@ const LinkStyle = {
 
 const SignUpContent = () => {
   const [name, setName] = useState("");
-  const [email, setEmail] = useState(""); // Changed from 'id' to 'email'
+  const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
   const [confirmPw, setConfirmPw] = useState("");
-  const [emailEntered, setEmailEntered] = useState(false); // Changed from 'idEntered' to 'emailEntered'
-  const [isDuplicateChecked, setIsDuplicateChecked] = useState(false); // 중복 확인 상태
+  const [emailEntered, setEmailEntered] = useState(false);
+  const [isDuplicateChecked, setIsDuplicateChecked] = useState(false);
 
-  const [emailValid, setEmailValid] = useState(false); // Changed from 'idValid' to 'emailValid'
   const [nameValid, setNameValid] = useState(false);
   const [pwValid, setPwValid] = useState(false);
   const [confirmPwValid, setConfirmPwValid] = useState(false);
 
-  const [emailError, setEmailError] = useState(""); // Changed from 'idError' to 'emailError'
-  const [emailSuccess, setEmailSuccess] = useState(""); // Changed from 'idSuccess' to 'emailSuccess'
+  const [emailError, setEmailError] = useState("");
+  const [emailSuccess, setEmailSuccess] = useState("");
 
   const [notAllow, setNotAllow] = useState(true);
 
   const [pwType, setPwType] = useState("password");
-
   const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
@@ -215,11 +213,15 @@ const SignUpContent = () => {
     const newEmail = e.target.value;
     setEmail(newEmail);
     setEmailEntered(newEmail.length > 0);
-    setEmailValid(newEmail.length > 0);
-    setIsDuplicateChecked(false); // 이메일이 변경되면 중복 확인 상태를 초기화
+    setIsDuplicateChecked(false);
     setEmailError("");
     setEmailSuccess("");
     updateButtonState(newEmail, name, pw, confirmPw);
+  };
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   };
 
   const handleName = (e) => {
@@ -246,13 +248,11 @@ const SignUpContent = () => {
   const updateButtonState = (newEmail, newName, newPw, newConfirmPw) => {
     setNotAllow(
       !(
-        (
-          newEmail.length > 0 &&
-          newName.length > 0 &&
-          newPw.length >= 4 &&
-          newPw === newConfirmPw &&
-          isDuplicateChecked
-        ) // 중복 확인이 완료된 상태인지 체크
+        newEmail.length > 0 &&
+        newName.length > 0 &&
+        newPw.length >= 4 &&
+        newPw === newConfirmPw &&
+        isDuplicateChecked
       )
     );
   };
@@ -274,11 +274,9 @@ const SignUpContent = () => {
       axios.post(
         "https://port-0-edcustom-lxx5p8dd0617fae9.sel5.cloudtype.app/register",
         {
-          data: {
-            name: name, // Changed from 'id' to 'email'
-            email: email,
-            password: pw,
-          },
+          name: name,
+          email: email,
+          password: pw,
         }
       );
       navigate("/SignIn");
@@ -288,24 +286,25 @@ const SignUpContent = () => {
   };
 
   const emailCheck = async () => {
+    if (!validateEmail(email)) {
+      setEmailError("이메일 형식이 올바르지 않습니다.");
+      setEmailSuccess("");
+      setIsDuplicateChecked(false);
+      return;
+    }
+
     try {
       const response = await axios.post(
-        "https://port-0-cpbeck-hdoly2altu7slne.sel5.cloudtype.app/api/users/check_duplicate",
+        "https://port-0-edcustom-lxx5p8dd0617fae9.sel5.cloudtype.app/alreadyusingemail",
         {
-          data: {
-            id: 0,
-            name: email, // Changed from 'id' to 'email'
-            nick_name: "string",
-            authorization: "string",
-          },
+          email: email
         }
       );
 
-      if (response.data == null) {
+      if (response.data === false) {
         setEmailError("");
         setEmailSuccess("사용 가능한 이메일입니다.");
         setIsDuplicateChecked(true);
-        updateButtonState(email, name, pw, confirmPw);
       } else {
         setEmailError("이미 사용중인 이메일입니다.");
         setEmailSuccess("");
@@ -315,8 +314,9 @@ const SignUpContent = () => {
       setEmailError("");
       setEmailSuccess("사용 가능한 이메일입니다.");
       setIsDuplicateChecked(true);
-      updateButtonState(email, name, pw, confirmPw);
     }
+
+    updateButtonState(email, name, pw, confirmPw);
   };
 
   return (
@@ -333,7 +333,7 @@ const SignUpContent = () => {
           <InputBox>
             <Input
               type="text"
-              placeholder="이메일을 입력해주세요" // Changed placeholder from '아이디를 입력해주세요' to '이메일을 입력해주세요'
+              placeholder="이메일을 입력해주세요"
               value={email}
               onChange={handleEmail}
               onKeyDown={handleKeyDown}

@@ -48,8 +48,8 @@ const InputBox = styled.div`
 
 const Input = styled.input`
   width: 100%;
-  height: 45px;
-  font-size: 14px;
+  height: 50px;
+  font-size: 16px;
   border: solid 1px #dadada;
   padding: 10px;
   &:focus {
@@ -171,8 +171,8 @@ const SignInContent = () => {
   const [pwType, setPwType] = useState("password");
   const [showPassword, setShowPassword] = useState(false);
 
-  const REST_API_KEY = '9b8440c52cc5a7dd32647c76aade83d3';
-  const REDIRECT_URI = 'http://localhost:3000/user/kakao/login';
+  const REST_API_KEY = `9b8440c52cc5a7dd32647c76aade83d3`;
+  const REDIRECT_URI = `http://localhost:3000/KakaoRedirect`;
   const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code&prompt=login`;
 
   const loginHandler = () => {
@@ -201,16 +201,15 @@ const SignInContent = () => {
       const response = await axios.post(
         "https://port-0-edcustom-lxx5p8dd0617fae9.sel5.cloudtype.app/login",
         {
-            email: id,
-            password: pw
-          },
+          email: id,
+          password: pw,
+        }
       );
       console.log(response.data.token);
       localStorage.setItem("token", JSON.stringify(response.data.token));
       navigate("/");
     } catch (error) {
       alert("회원 정보가 일치하지 않습니다.");
-      
     }
   };
 
