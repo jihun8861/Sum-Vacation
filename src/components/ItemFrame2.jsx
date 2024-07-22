@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
-  width: 300px;
-  height: 350px;
+  width: 320px;
+  height: 380px;
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -20,18 +20,24 @@ const ImageFrame2 = styled.div`
 
 const TextFrame2 = styled.div`
   width: 100%;
-  height: 60px;
-  border: solid 1px;
+  height: auto;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  padding-top: 10px;
 `;
 
 const Text2 = styled.div`
-  border: solid 1px;
+  font-size: 16px;
 `;
 
-const ItemFrame2 = ({ image, hoverImage, text }) => {
+const PriceFrame = styled.div`
+  width: 100%;
+  height: auto;
+  font-size: 18px;
+  font-weight: 600;
+  padding-top: 5px;
+`
+
+const ItemFrame2 = ({ image, hoverImage, text, price }) => {
   const [currentImage, setCurrentImage] = useState(image);
 
   const handleMouseEnter = () => {
@@ -40,6 +46,13 @@ const ItemFrame2 = ({ image, hoverImage, text }) => {
 
   const handleMouseLeave = () => {
     setCurrentImage(image);
+  };
+
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('ko-KR', {
+      currency: 'KRW',
+      minimumFractionDigits: 0
+    }).format(price);
   };
 
   return (
@@ -52,6 +65,7 @@ const ItemFrame2 = ({ image, hoverImage, text }) => {
       <TextFrame2>
         <Text2>{text}</Text2>
       </TextFrame2>
+      <PriceFrame>{formatPrice(price)}원</PriceFrame>
     </Container>
   );
 };

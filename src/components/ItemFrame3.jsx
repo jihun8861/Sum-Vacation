@@ -57,7 +57,7 @@ const CustomBtn = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 180px;
+  width: 200px;
   height: 60px;
   border: solid 2px #eeeeee;
   border-radius: 40px;
@@ -110,7 +110,7 @@ const ItemFrame3 = () => {
           </CustomIconTextWrapper>
         </CustomSpace>
 
-        <a href="Custom" style={LinkStyle}>
+        <a href="CustomSelect" style={LinkStyle}>
           <CustomBtn>
             커스텀 하러 가기
             <ArrowIcon />

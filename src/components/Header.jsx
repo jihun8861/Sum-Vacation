@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { RiUserLine } from "react-icons/ri";
 import { SlBasket } from "react-icons/sl";
 import { IoSearchOutline } from "react-icons/io5";
+import { IoPowerSharp } from "react-icons/io5";
+import { FaRegFaceSmile } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom"; 
 
 const Container = styled.div`
   width: 100%;
@@ -19,7 +22,7 @@ const Container = styled.div`
 `;
 
 const Frame = styled.div`
-  width: 1600px;
+  width: 95%;
   height: 100%;
   display: flex;
   align-items: center;
@@ -78,10 +81,64 @@ const LinkStyle = (atTop) => ({
   color: atTop ? "white" : "black",
 });
 
+const Modal = styled.div`
+  position: absolute;
+  top: 50px;
+  right: 1px;
+  width: 300px;
+  height: 150px;
+  background-color: white;
+  border: 1px solid #e8e8e8;
+  border-radius: 10px;
+  box-shadow: 0 10px 10px rgba(100, 100, 100, 0.5);
+  z-index: 100;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+`;
+
+const ModalItem = styled.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  &:hover {
+    background-color: #f0f0f0;
+    border-radius: 5px;
+  }
+  padding: 10px;
+`;
+
+const ModalIcon = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+`;
+
 const Header = ({ isHome }) => {
   const [hidden, setHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [atTop, setAtTop] = useState(isHome);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkLoginStatus = () => {
+      const token = localStorage.getItem('token');
+      setIsLoggedIn(!!token);
+    };
+    checkLoginStatus();
+
+    if (isHome) {
+      window.addEventListener("scroll", handleScroll);
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
+    } else {
+      setAtTop(false);
+    }
+  }, [isHome, lastScrollY]);
 
   const handleScroll = () => {
     if (!isHome) return;
@@ -95,16 +152,19 @@ const Header = ({ isHome }) => {
     setLastScrollY(currentScrollY);
   };
 
-  useEffect(() => {
-    if (isHome) {
-      window.addEventListener("scroll", handleScroll);
-      return () => {
-        window.removeEventListener("scroll", handleScroll);
-      };
+  const handleUserIconClick = () => {
+    if (isLoggedIn) {
+      setIsModalOpen(!isModalOpen);
     } else {
-      setAtTop(false);
+      navigate("/signin");
     }
-  }, [isHome, lastScrollY]);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setIsLoggedIn(false);
+    navigate("/");
+  };
 
   return (
     <Container hidden={hidden} atTop={atTop} isHome={isHome}>
@@ -120,7 +180,7 @@ const Header = ({ isHome }) => {
         <Spacer />
 
         <Section2 atTop={atTop}>
-          <h4>고객지원</h4>
+          <h4>챗봇상담</h4>
         </Section2>
 
         <Section2 atTop={atTop}>
@@ -128,9 +188,25 @@ const Header = ({ isHome }) => {
         </Section2>
 
         <Section2 atTop={atTop}>
-          <a href="SignIn" style={LinkStyle(atTop)}>
+          <div onClick={handleUserIconClick} style={{ cursor: 'pointer', position: 'relative' }}>
             <UserIcon atTop={atTop} />
-          </a>
+            {isModalOpen && (
+              <Modal>
+                <ModalItem onClick={() => navigate("/mypage")}>
+                  <ModalIcon>
+                    <FaRegFaceSmile />
+                  </ModalIcon>
+                  <p>나의정보</p>
+                </ModalItem>
+                <ModalItem onClick={handleLogout}>
+                  <ModalIcon>
+                    <IoPowerSharp />
+                  </ModalIcon>
+                  <p>로그아웃</p>
+                </ModalItem>
+              </Modal>
+            )}
+          </div>
         </Section2>
 
         <Section2 atTop={atTop}>

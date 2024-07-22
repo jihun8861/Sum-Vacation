@@ -12,7 +12,7 @@ const ImageFrame = styled.div`
   width: 100%;
   height: 70%;
   border: solid 1px;
-  background-image: url(${props => props.image});
+  background-image: url(${(props) => props.image});
   background-size: cover;
   background-position: center;
 `;
@@ -28,11 +28,10 @@ const TextFrame = styled.div`
 `;
 
 const Text = styled.div`
-    border: solid 1px;
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-`
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+`;
 
 const PurchaseBtn = styled.button`
   width: 35%;
@@ -46,17 +45,17 @@ const PurchaseBtn = styled.button`
   transition: background-color 0.3s ease;
   &:hover {
     background-color: #5377ff;
-`
+`;
 
-const ItemFrame3 = ({image,text}) => {
+const ItemFrame3 = ({ image, text }) => {
   return (
     <>
       <Container>
-      <ImageFrame image={image} />
-      <TextFrame>
-        <Text>{text}</Text>
-        <PurchaseBtn>구매하기</PurchaseBtn>
-      </TextFrame>
+        <ImageFrame image={image} />
+        <TextFrame>
+          <Text>{text}</Text>
+          <PurchaseBtn>Test</PurchaseBtn>
+        </TextFrame>
       </Container>
     </>
   );

@@ -27,24 +27,6 @@ const slideUp = keyframes`
   }
 `;
 
-const slideLeft = keyframes`
-  from {
-     opacity: 0;
-  }
-  to {
-     opacity: 1;
-  }
-`;
-
-const slideRight = keyframes`
-  from {
-     opacity: 0;
-  }
-  to {
-     opacity: 1;
-  }
-`;
-
 const Frame1 = styled.div`
   width: 100%;
   height: 100%;
@@ -64,6 +46,7 @@ const Frame1 = styled.div`
     animation: ${slideUp} 1s forwards;
     opacity: 1;
   }
+    border: solid 1px;
 `;
 
 const Frame2 = styled.div`
@@ -72,6 +55,7 @@ const Frame2 = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border: solid 1px;
 `;
 
 const Frame3 = styled.div`
@@ -94,11 +78,15 @@ const ItemFrame2Wrapper = styled.div`
 const ArrowIconFront = styled(MdArrowForwardIos)`
   font-size: 30px;
   cursor: pointer;
+  bottom: 30px;
+  position: relative;
 `;
 
 const ArrowIconBack = styled(MdArrowBackIosNew)`
   font-size: 30px;
   cursor: pointer;
+  bottom: 30px;
+  position: relative;
 `;
 
 const RadioButtonContainer = styled.div`
@@ -130,14 +118,54 @@ const HomeContent = () => {
   ];
 
   const items2 = [
-    { image: "/images/keyboard1.png", hoverImage: "/images/keyboard1-1.png", text: "몬스타기어 YAONG67 야옹67 아크릴 키보드" },
-    { image: "/images/keyboard2.png", hoverImage: "/images/keyboard2-1.png", text: "몬스타기어 닌자87PRO ALU 스페셜 에디션 풀알루미늄 커스텀 키보드" },
-    { image: "/images/keyboard3.png", hoverImage: "/images/keyboard3-1.png", text: "[공장풀윤활] 몬스타기어 닌자96PRO LCD (Ver.게이트론)" },
-    { image: "/images/keyboard4.png", hoverImage: "/images/keyboard4-1.png", text: "[수제풀윤활] 몬스타기어 닌자 104PRO LCD (Ver.게이트론)" },
-    { image: "/images/keyboard5.png", hoverImage: "/images/keyboard5-1.png", text: "몬스타기어 클래식 TKL 아크릴 / 아델리 스위치 투명키보드 유무선 풀윤활 커스텀 키보드" },
-    { image: "/images/keyboard6.png", hoverImage: "/images/keyboard6-1.png", text: "몬스타기어 닌자87PRO V2 G(Ver.게이트론)" },
-    { image: "/images/keyboard7.png", hoverImage: "/images/keyboard7-1.png", text: "몬스타기어 네모67 커스텀 키보드" },
-    { image: "/images/keyboard8.png", hoverImage: "/images/keyboard8-1.png", text: "FEKER 앨리스98 LCD 키보드" },
+    {
+      image: "/images/keyboard1.png",
+      hoverImage: "/images/keyboard1-1.png",
+      text: "몬스타기어 YAONG67 야옹67 아크릴 키보드",
+      price: 139000,
+    },
+    {
+      image: "/images/keyboard2.png",
+      hoverImage: "/images/keyboard2-1.png",
+      text: "몬스타기어 닌자87PRO ALU 스페셜 에디션 풀알루미늄 커스텀 키보드",
+      price: 250000,
+    },
+    {
+      image: "/images/keyboard3.png",
+      hoverImage: "/images/keyboard3-1.png",
+      text: "[공장풀윤활] 몬스타기어 닌자96PRO LCD (Ver.게이트론)",
+      price: 169000,
+    },
+    {
+      image: "/images/keyboard4.png",
+      hoverImage: "/images/keyboard4-1.png",
+      text: "[수제풀윤활] 몬스타기어 닌자 104PRO LCD (Ver.게이트론)",
+      price: 199000,
+    },
+    {
+      image: "/images/keyboard5.png",
+      hoverImage: "/images/keyboard5-1.png",
+      text: "[공장풀윤활] 클래식TKL 아크릴 커스텀 기계식키보드(Ver.Gateron)",
+      price: 199000,
+    },
+    {
+      image: "/images/keyboard6.png",
+      hoverImage: "/images/keyboard6-1.png",
+      text: "몬스타기어 닌자87PRO V2 G(Ver.게이트론)",
+      price: 99500,
+    },
+    {
+      image: "/images/keyboard7.png",
+      hoverImage: "/images/keyboard7-1.png",
+      text: "몬스타기어 네모67 커스텀 키보드",
+      price: 159000,
+    },
+    {
+      image: "/images/keyboard8.png",
+      hoverImage: "/images/keyboard8-1.png",
+      text: "FEKER 앨리스98 LCD 키보드",
+      price: 220000,
+    },
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -203,7 +231,13 @@ const HomeContent = () => {
           {items2
             .slice(currentIndex, currentIndex + itemsPerPage)
             .map((item, index) => (
-              <ItemFrame2 key={currentIndex + index} image={item.image} hoverImage={item.hoverImage} text={item.text} />
+              <ItemFrame2
+                key={currentIndex + index}
+                image={item.image}
+                hoverImage={item.hoverImage}
+                text={item.text}
+                price={item.price}
+              />
             ))}
         </ItemFrame2Wrapper>
         <ArrowIconFront onClick={handleNext} />

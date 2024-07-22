@@ -167,7 +167,6 @@ const SignInContent = () => {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
   const [notAllow, setNotAllow] = useState(true);
-  // 아이콘 클릭으로 인한 비밀번호 보이기 여부 상태
   const [pwType, setPwType] = useState("password");
   const [showPassword, setShowPassword] = useState(false);
 
@@ -181,7 +180,6 @@ const SignInContent = () => {
 
   const handleIdChange = (e) => {
     setId(e.target.value);
-    console.log(e.target.value);
     updateButtonState(e.target.value, pw);
   };
 
@@ -190,7 +188,6 @@ const SignInContent = () => {
     updateButtonState(id, e.target.value);
   };
 
-  // 아이콘 클릭 핸들러
   const handleEyeClick = () => {
     setPwType(pwType === "password" ? "text" : "password");
     setShowPassword(!showPassword);
@@ -205,15 +202,13 @@ const SignInContent = () => {
           password: pw,
         }
       );
-      console.log(response.data.token);
-      localStorage.setItem("token", JSON.stringify(response.data.token));
+      localStorage.setItem("token", response.data.token);
       navigate("/");
     } catch (error) {
       alert("회원 정보가 일치하지 않습니다.");
     }
   };
 
-  // 아이디와 비밀번호를 1자 이상이라도 입력 시 버튼 활성화
   const updateButtonState = (newId, newPw) => {
     setNotAllow(!(newId.length >= 1 && newPw.length >= 1));
   };
@@ -228,18 +223,18 @@ const SignInContent = () => {
     <Container>
       <SignInFrame>
         <TitleText>로그인</TitleText>
-        <Text>ID</Text>
+        <Text>Email</Text>
         <InputBox>
           <Input
             type="text"
-            placeholder="아이디를 입력해주세요"
+            placeholder="이메일을 입력해주세요"
             value={id}
             onChange={handleIdChange}
             onKeyDown={handleKeyDown}
           />
         </InputBox>
 
-        <Text>PASSWORD</Text>
+        <Text>Password</Text>
         <InputBox>
           <Input
             type={showPassword ? "text" : "password"}

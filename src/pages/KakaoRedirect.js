@@ -53,7 +53,7 @@ const KakaoRedirect = () => {
   }
 
   if (error) {
-    return <p>{error}</p>;
+    return <></>;
   }
 
   return null;
