@@ -1,0 +1,123 @@
+[
+  {
+    "image": "/images/keyboard1.png",
+    "hoverImage": "/images/keyboard1-1.png",
+    "text": "몬스타기어 YAONG67 야옹67 아크릴 키보드",
+    "price": 139000,
+    "text2": "고양이 형태의 아크릴 키보드",
+    "color": "#955377",
+    "details": [
+      "고양이 형태의 아크릴 키보드",
+      "유선 전용",
+      "풀 아크릴 하우징 (적층) & 클리어, 화이트 색상",
+      "LED 지원",
+      "65배열",
+      "핫스왑&솔더링"
+    ]
+  },
+  {
+    "image": "/images/keyboard2.png",
+    "hoverImage": "/images/keyboard2-1.png",
+    "text": "몬스타기어 닌자87PRO ALU 스페셜 에디션 풀알루미늄 커스텀 키보드",
+    "price": 250000,
+    "text2": "닌자87PRO ALU 에디션",
+    "color": "#0000FF",
+    "details": [
+      "풀알루미늄 바디",
+      "유선 전용",
+      "RGB LED 지원",
+      "87키 배열",
+      "핫스왑 지원"
+    ]
+  },
+  {
+    "image": "/images/keyboard3.png",
+    "hoverImage": "/images/keyboard3-1.png",
+    "text": "[공장풀윤활] 몬스타기어 닌자96PRO LCD (Ver.게이트론)",
+    "price": 169000,
+    "text2": "Detail text about the Mechanical Keyboard",
+    "color": "#008000",
+    "details": [
+      "공장풀윤활 처리",
+      "96키 배열",
+      "LCD 디스플레이",
+      "게이트론 스위치",
+      "RGB LED 지원"
+    ]
+  },
+  {
+    "image": "/images/keyboard4.png",
+    "hoverImage": "/images/keyboard4-1.png",
+    "text": "[수제풀윤활] 몬스타기어 닌자 104PRO LCD (Ver.게이트론)",
+    "price": 199000,
+    "text2": "Detail text about the Mechanical Keyboard",
+    "color": "#FFA500",
+    "details": [
+      "수제풀윤활 처리",
+      "104키 배열",
+      "LCD 디스플레이",
+      "게이트론 스위치",
+      "RGB LED 지원"
+    ]
+  },
+  {
+    "image": "/images/keyboard5.png",
+    "hoverImage": "/images/keyboard5-1.png",
+    "text": "몬스타기어 MK84S 미니키보드",
+    "price": 87000,
+    "text2": "Detail text about the Mechanical Keyboard",
+    "color": "#800080",
+    "details": [
+      "미니키보드",
+      "84키 배열",
+      "유선 전용",
+      "RGB LED 지원",
+      "게이트론 스위치"
+    ]
+  },
+  {
+    "image": "/images/keyboard6-1.png",
+    "hoverImage": "/images/keyboard6.png",
+    "text": "몬스타기어 닌자87PRO V2 G(Ver.게이트론)",
+    "price": 99500,
+    "text2": "Detail text about the Mechanical Keyboard",
+    "color": "#00FFFF",
+    "details": [
+      "87키 배열",
+      "유선 전용",
+      "RGB LED 지원",
+      "게이트론 스위치",
+      "핫스왑 지원"
+    ]
+  },
+  {
+    "image": "/images/keyboard7.png",
+    "hoverImage": "/images/keyboard7-1.png",
+    "text": "몬스타기어 네모67 커스텀 키보드",
+    "price": 159000,
+    "text2": "Detail text about the Mechanical Keyboard",
+    "color": "#FFC0CB",
+    "details": [
+      "67키 배열",
+      "유선 전용",
+      "RGB LED 지원",
+      "커스텀 스위치",
+      "핫스왑 지원"
+    ]
+  },
+  {
+    "image": "/images/keyboard8.png",
+    "hoverImage": "/images/keyboard8-1.png",
+    "text": "FEKER 앨리스98 LCD 키보드",
+    "price": 220000,
+    "text2": "Detail text about the Mechanical Keyboard",
+    "color": "#FFFF00",
+    "details": [
+      "98키 배열",
+      "LCD 디스플레이",
+      "유선 전용",
+      "RGB LED 지원",
+      "게이트론 스위치"
+    ]
+  }
+]

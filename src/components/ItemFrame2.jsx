@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   width: 320px;
@@ -27,6 +28,7 @@ const TextFrame2 = styled.div`
 
 const Text2 = styled.div`
   font-size: 16px;
+  color: ${(props) => props.color}; // 색상을 받아와서 적용
 `;
 
 const PriceFrame = styled.div`
@@ -35,10 +37,11 @@ const PriceFrame = styled.div`
   font-size: 18px;
   font-weight: 600;
   padding-top: 5px;
-`
+`;
 
-const ItemFrame2 = ({ image, hoverImage, text, price }) => {
+const ItemFrame2 = ({ image, hoverImage, text, price, text2, color, details }) => {
   const [currentImage, setCurrentImage] = useState(image);
+  const navigate = useNavigate();
 
   const handleMouseEnter = () => {
     setCurrentImage(hoverImage);
@@ -48,15 +51,21 @@ const ItemFrame2 = ({ image, hoverImage, text, price }) => {
     setCurrentImage(image);
   };
 
+  const handleClick = () => {
+    navigate("/purchase", {
+      state: { image, text, price, text2, color, details }
+    });
+  };
+
   const formatPrice = (price) => {
-    return new Intl.NumberFormat('ko-KR', {
-      currency: 'KRW',
-      minimumFractionDigits: 0
+    return new Intl.NumberFormat("ko-KR", {
+      currency: "KRW",
+      minimumFractionDigits: 0,
     }).format(price);
   };
 
   return (
-    <Container>
+    <Container onClick={handleClick}>
       <ImageFrame2
         image={currentImage}
         onMouseEnter={handleMouseEnter}

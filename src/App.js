@@ -7,10 +7,13 @@ import SignUp from "./pages/SignUp";
 import CustomSelect from "./pages/CustomSelect";
 import Custom from "./pages/Custom";
 import Mypage from "./pages/Mypage";
+import Purchase from "./pages/Purchase";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   return (
     <BrowserRouter>
+    <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home/>}/>
         <Route path="/KakaoRedirect" element={<KakaoRedirect/>}/>
@@ -19,6 +22,7 @@ function App() {
         <Route path="/CustomSelect" element={<CustomSelect/>}/>
         <Route path="/Custom" element={<Custom/>}/>
         <Route path="/Mypage" element={<Mypage/>}/>
+        <Route path="/Purchase" element={<Purchase/>}/>
       </Routes>
     </BrowserRouter>
   );

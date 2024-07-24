@@ -6,6 +6,8 @@ import { FaArrowUp } from "react-icons/fa";
 import { HiShare } from "react-icons/hi";
 
 const Container = styled.div`
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,7 +23,11 @@ const BannerContainer = styled.div`
 `;
 
 const Main = styled.div`
+  width: 100%;
+  height: auto;
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
   margin-top: 100px;
 `;
@@ -38,7 +44,7 @@ const TopArrow = styled.div`
   align-items: center;
   justify-content: center;
   background-color: white;
-    &:hover {
+  &:hover {
     background: #6d8cff;
     color: white;
     border: none;
@@ -94,8 +100,8 @@ const Layout = ({ isHome, children }) => {
             <TopArrowIcon />
           </TopArrow>
         </Main>
+        <Footer />
       </Container>
-      <Footer />
     </>
   );
 };
