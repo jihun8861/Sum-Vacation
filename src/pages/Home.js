@@ -58,7 +58,7 @@ const Frame2 = styled.div`
 `;
 
 const Frame3 = styled.div`
-  width: 95%;
+  width: 90%;
   height: 100%;
   display: flex;
   align-items: center;

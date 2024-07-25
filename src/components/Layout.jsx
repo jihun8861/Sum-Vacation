@@ -3,7 +3,6 @@ import styled from "styled-components";
 import Header from "./Header";
 import Footer from "./Footer";
 import { FaArrowUp } from "react-icons/fa";
-import { HiShare } from "react-icons/hi";
 
 const Container = styled.div`
   width: 100%;
@@ -74,9 +73,6 @@ const Share = styled.div`
   }
 `;
 
-const ShareIcon = styled(HiShare)`
-  font-size: 16px;
-`;
 
 const Layout = ({ isHome, children }) => {
   const scrollToTop = () => {
@@ -93,9 +89,6 @@ const Layout = ({ isHome, children }) => {
         <Header isHome={isHome} />
         <Main>
           {children}
-          <Share>
-            <ShareIcon />
-          </Share>
           <TopArrow onClick={scrollToTop}>
             <TopArrowIcon />
           </TopArrow>
