@@ -9,12 +9,13 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  background-image: url("/images/test.png");
+  background-size: 100% 100%;
 `;
 
 const Frame = styled.div`
   width: 80%;
   height: 100%;
-  border: solid 1px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -23,7 +24,9 @@ const Frame = styled.div`
 const CustomContent = () => {
   return (
     <Container>
-      <Frame>커스텀 페이지입니다.</Frame>
+      <Frame>
+        
+      </Frame>
     </Container>
   );
 };

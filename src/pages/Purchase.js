@@ -66,7 +66,7 @@ const Price = styled.div`
 `;
 
 const ShareIcon = styled(PiShareNetwork)`
-  font-size: 28px;
+  font-size: 24px;
   cursor: pointer;
 `
 

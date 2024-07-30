@@ -4,8 +4,7 @@ import { RiUserLine } from "react-icons/ri";
 import { SlBasket } from "react-icons/sl";
 import { IoSearchOutline } from "react-icons/io5";
 import { IoPowerSharp } from "react-icons/io5";
-import { FaRegFaceSmile } from "react-icons/fa6";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;
@@ -16,7 +15,8 @@ const Container = styled.div`
   justify-content: center;
   position: fixed;
   top: 0;
-  transition: top 0.5s ease-in-out, background-color 0.3s ease-in-out, border-bottom 0.3s ease-in-out;
+  transition: top 0.5s ease-in-out, background-color 0.3s ease-in-out,
+    border-bottom 0.3s ease-in-out;
   background-color: ${(props) => (props.atTop ? "transparent" : "white")};
   border-bottom: ${(props) => (props.isHome ? "none" : "1px solid #e8e8e8")};
 `;
@@ -76,56 +76,38 @@ const SearchIcon = styled(IoSearchOutline)`
   color: ${(props) => (props.atTop ? "white" : "black")};
 `;
 
+const LogoutButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: ${(props) => (props.atTop ? "white" : "black")};
+  font-size: 18px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin-left: 10px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
 const LinkStyle = (atTop) => ({
   textDecoration: "none",
   color: atTop ? "white" : "black",
 });
-
-const Modal = styled.div`
-  position: absolute;
-  top: 50px;
-  right: 1px;
-  width: 300px;
-  height: 150px;
-  background-color: white;
-  border: 1px solid #e8e8e8;
-  border-radius: 10px;
-  box-shadow: 0 10px 10px rgba(100, 100, 100, 0.5);
-  z-index: 100;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-`;
-
-const ModalItem = styled.div`
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  &:hover {
-    background-color: #f0f0f0;
-    border-radius: 5px;
-  }
-  padding: 10px;
-`;
-
-const ModalIcon = styled.div`
-  display: flex;
-  align-items: center;
-  margin-right: 10px;
-`;
 
 const Header = ({ isHome }) => {
   const [hidden, setHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [atTop, setAtTop] = useState(isHome);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const checkLoginStatus = () => {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       setIsLoggedIn(!!token);
     };
     checkLoginStatus();
@@ -153,15 +135,13 @@ const Header = ({ isHome }) => {
   };
 
   const handleUserIconClick = () => {
-    if (isLoggedIn) {
-      setIsModalOpen(!isModalOpen);
-    } else {
+    if (!isLoggedIn) {
       navigate("/signin");
     }
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     setIsLoggedIn(false);
     navigate("/");
   };
@@ -188,29 +168,21 @@ const Header = ({ isHome }) => {
         </Section2>
 
         <Section2 atTop={atTop}>
-          <div onClick={handleUserIconClick} style={{ cursor: 'pointer', position: 'relative' }}>
+          <div
+            onClick={handleUserIconClick}
+            style={{ cursor: "pointer", display: "flex", alignItems: "center" }}
+          >
             <UserIcon atTop={atTop} />
-            {isModalOpen && (
-              <Modal>
-                <ModalItem onClick={() => navigate("/mypage")}>
-                  <ModalIcon>
-                    <FaRegFaceSmile />
-                  </ModalIcon>
-                  <p>나의정보</p>
-                </ModalItem>
-                <ModalItem onClick={handleLogout}>
-                  <ModalIcon>
-                    <IoPowerSharp />
-                  </ModalIcon>
-                  <p>로그아웃</p>
-                </ModalItem>
-              </Modal>
-            )}
           </div>
         </Section2>
 
         <Section2 atTop={atTop}>
-          <BasketIcon atTop={atTop} />
+          {isLoggedIn && (
+            <LogoutButton atTop={atTop} onClick={handleLogout}>
+              <IoPowerSharp style={{ marginRight: "5px" }} />
+              로그아웃
+            </LogoutButton>
+          )}
         </Section2>
       </Frame>
     </Container>

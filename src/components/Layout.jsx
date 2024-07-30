@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
+import axios from "axios";
 import Header from "./Header";
 import Footer from "./Footer";
 import { FaArrowUp } from "react-icons/fa";
+import { AiOutlineMessage } from "react-icons/ai";
+import { TbArrowsDiagonalMinimize2 } from "react-icons/tb";
+import { FiSend } from "react-icons/fi";
+import { RiRobot2Line } from "react-icons/ri";
 
 const Container = styled.div`
   width: 100%;
@@ -37,7 +42,7 @@ const TopArrow = styled.div`
   width: 50px;
   height: 50px;
   right: 20px;
-  bottom: 60px;
+  bottom: 100px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -54,13 +59,13 @@ const TopArrowIcon = styled(FaArrowUp)`
   font-size: 16px;
 `;
 
-const Share = styled.div`
+const ChatAi = styled.div`
   position: fixed;
   border: solid 1px;
   width: 50px;
   height: 50px;
   right: 20px;
-  bottom: 120px;
+  bottom: 40px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -73,14 +78,157 @@ const Share = styled.div`
   }
 `;
 
+const ChatAiIcon = styled(AiOutlineMessage)`
+  font-size: 28px;
+`;
+
+const CloseIcon = styled(TbArrowsDiagonalMinimize2)`
+  font-size: 28px;
+`;
+
+const ChatModal = styled.div`
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
+  width: 420px;
+  height: 600px;
+  box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  border-radius: 4px;
+`;
+
+const ModalHeader = styled.div`
+  width: 100%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  font-size: 23px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+`;
+
+// Logo 스타일링
+const Logo = styled.img`
+  display: flex;
+  width: 25%;
+  height: 70%;
+`;
+
+const MessagesContainer = styled.div`
+  flex: 1;
+  width: 100%;
+  overflow-y: auto;
+  margin-bottom: 16px;
+  padding: 8px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Message = styled.div`
+  margin: 8px 8px;
+  padding: 12px;
+  background-color: ${(props) => (props.isUser ? "#6d8cff" : "#f2f3f5")};
+  color: ${(props) => (props.isUser ? "white" : "black")};  // 변경된 부분
+  font-size: 17px;
+  border-radius: 8px;
+  align-self: ${(props) => (props.isUser ? "flex-end" : "flex-start")};
+  max-width: 90%;
+  word-wrap: break-word;
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  width: 100%;
+  height: 60px;
+  align-items: center;
+`;
+
+const ChatInput = styled.input`
+  padding-left: 8px;
+  width: 100%;
+  height: 100%;
+  font-size: 16px;
+  border: none;
+  border-top: 1px solid #ccc;
+  &:focus {
+    outline: none;
+  }
+`;
+
+const SendButton = styled(FiSend)`
+  font-size: 22px;
+  cursor: pointer;
+  position: absolute;
+  bottom: 15px;
+  right: 10px;
+`;
 
 const Layout = ({ isHome, children }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [inputMessage, setInputMessage] = useState("");
+  const messagesEndRef = useRef("");
+
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
   };
+
+  const chatIconClick = () => {
+    setIsModalOpen(true);
+    setMessages([
+      { 
+        text: (
+          <>
+            안녕하세요. Tabs 챗봇이에요.<br/><br/>
+            무엇을 도와드릴까요? <br/><br/>원하는 시는 키보드 스타일을 채팅으로 물어보세요!
+          </>
+        ), 
+        isUser: false 
+      }
+    ]);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setMessages([]); // 메시지 초기화
+  };
+
+  const handleMessageSend = async () => {
+    if (inputMessage.trim() === "") return;
+
+    const newMessages = [...messages, { text: inputMessage, isUser: true }];
+    setMessages(newMessages);
+
+    try {
+      const response = await axios.post(
+        "https://port-0-edcustom-lxx5p8dd0617fae9.sel5.cloudtype.app/ai/generate",
+        { 
+          message: inputMessage 
+        }
+      );
+
+      setMessages([...newMessages, { text: response.data.message, isUser: false }]);
+    } catch (error) {
+      console.error("Error sending message:", error);
+    }
+
+    setInputMessage("");
+  };
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   return (
     <>
@@ -92,6 +240,33 @@ const Layout = ({ isHome, children }) => {
           <TopArrow onClick={scrollToTop}>
             <TopArrowIcon />
           </TopArrow>
+          <ChatAi onClick={isModalOpen ? closeModal : chatIconClick}>
+            {isModalOpen ? <CloseIcon /> : <ChatAiIcon />}
+          </ChatAi>
+          {isModalOpen && (
+            <ChatModal>
+              <ModalHeader>
+                <Logo src="images/logo2.png" /> <p>챗봇</p>
+              </ModalHeader>
+              <MessagesContainer>
+                {messages.map((message, index) => (
+                  <Message key={index} isUser={message.isUser}>
+                    {message.text}
+                  </Message>
+                ))}
+                <div ref={messagesEndRef} />
+              </MessagesContainer>
+              <InputContainer>
+                <ChatInput
+                  value={inputMessage}
+                  onChange={(e) => setInputMessage(e.target.value)}
+                  placeholder="편하게 물어보세요!"
+                  onKeyDown={(e) => e.key === 'Enter' && handleMessageSend()}
+                />
+                <SendButton onClick={handleMessageSend}>Send</SendButton>
+              </InputContainer>
+            </ChatModal>
+          )}
         </Main>
         <Footer />
       </Container>
