@@ -99,6 +99,7 @@ const ChatModal = styled.div`
   justify-content: space-between;
   background-color: white;
   border-radius: 4px;
+  z-index: 101;
 `;
 
 const ModalHeader = styled.div`
@@ -169,7 +170,7 @@ const SendButton = styled(FiSend)`
   right: 10px;
 `;
 
-const Layout = ({ isHome, children }) => {
+const Layout = ({ isHome, children, hideFooter  }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
@@ -216,9 +217,12 @@ const Layout = ({ isHome, children }) => {
         }
       );
 
-      setMessages([...newMessages, { text: response.data.message, isUser: false }]);
+      console.log("Server response:", response.data.generation.output.content);
+
+      setMessages([...newMessages, { text: response.data.generation.output.content, isUser: false }]);
     } catch (error) {
       console.error("Error sending message:", error);
+      setMessages([...newMessages, { text: "Error: Could not send message", isUser: false }]);
     }
 
     setInputMessage("");
@@ -246,7 +250,7 @@ const Layout = ({ isHome, children }) => {
           {isModalOpen && (
             <ChatModal>
               <ModalHeader>
-                <Logo src="images/logo2.png" /> <p>챗봇</p>
+                <Logo src="images/logo.png" /> <p>챗봇</p>
               </ModalHeader>
               <MessagesContainer>
                 {messages.map((message, index) => (
@@ -268,7 +272,7 @@ const Layout = ({ isHome, children }) => {
             </ChatModal>
           )}
         </Main>
-        <Footer />
+        {!hideFooter && <Footer />}
       </Container>
     </>
   );

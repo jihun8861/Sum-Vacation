@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
 
 const Container = styled.div`
@@ -56,6 +57,7 @@ const ItemFrame = styled.a`
   flex-direction: column;
   text-decoration: none;
   color: black;
+  cursor: pointer;
 `;
 
 const Image = styled.div`
@@ -77,21 +79,27 @@ const ImageText = styled.div`
 `;
 
 const CustomSelectContent = () => {
+  const navigate = useNavigate();
+
+  const handleClick = (text) => {
+    navigate("/custom", { state: { text } });
+  };
+
   return (
     <Container>
       <Frame>
         <TitleText>3D Custom</TitleText>
         <KeyboardFrame>
           <Keyboard>
-            <ItemFrame href="Custom">
+            <ItemFrame onClick={() => handleClick("60% 베어본")}>
               <Image>60% 베어본 이미지</Image>
               <ImageText>60% 베어본</ImageText>
             </ItemFrame>
-            <ItemFrame href="Custom">
+            <ItemFrame onClick={() => handleClick("80% 베어본")}>
               <Image>80% 베어본 이미지</Image>
               <ImageText>80% 베어본</ImageText>
             </ItemFrame>
-            <ItemFrame href="Custom">
+            <ItemFrame onClick={() => handleClick("100% 베어본")}>
               <Image>100% 베어본 이미지</Image>
               <ImageText>100% 베어본</ImageText>
             </ItemFrame>

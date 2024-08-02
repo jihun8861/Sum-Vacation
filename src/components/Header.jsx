@@ -152,7 +152,7 @@ const Header = ({ isHome }) => {
         <Section1>
           <Logo>
             <a href="/" style={LinkStyle(atTop)}>
-              <img src="/images/logo2.png" alt="Logo" />
+              <img src="/images/logo.png" alt="Logo" />
             </a>
           </Logo>
         </Section1>
