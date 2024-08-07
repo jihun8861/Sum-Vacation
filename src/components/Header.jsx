@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { RiUserLine } from "react-icons/ri";
-import { SlBasket } from "react-icons/sl";
-import { IoSearchOutline } from "react-icons/io5";
-import { IoPowerSharp } from "react-icons/io5";
+import { IoCloseOutline } from "react-icons/io5";
+import { FaRegHeart } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import { RxHamburgerMenu } from "react-icons/rx";
 
 const Container = styled.div`
   width: 100%;
@@ -22,16 +22,41 @@ const Container = styled.div`
 `;
 
 const Frame = styled.div`
-  width: 95%;
+  width: 97%;
   height: 100%;
   display: flex;
   align-items: center;
 `;
 
+
+const Section2 = styled.div`
+  display: flex;
+  width: auto;
+  height: 100%;
+  margin-left: 20px;
+`;
+
 const Section1 = styled.div`
   display: flex;
-  width: 15%;
+  align-items: center;
+  justify-content: center;
   height: 100%;
+  padding: 10px;
+  color: ${(props) => (props.atTop ? "white" : "black")};
+`;
+
+const HeartIcon = styled(FaRegHeart)`
+  font-size: 22px;
+  cursor: pointer;
+  color: ${(props) => (props.atTop ? "white" : "black")};
+  margin: 10px 10px;
+`
+
+const MenuIcon = styled(RxHamburgerMenu)`
+  font-size: 28px;
+  cursor: pointer;
+  color: ${(props) => (props.atTop ? "white" : "black")};
+  margin: 10px 10px;
 `;
 
 const Spacer = styled.div`
@@ -41,21 +66,11 @@ const Spacer = styled.div`
 const Logo = styled.div`
   display: flex;
   align-items: center;
-  width: 100%;
+  width: 70%;
   height: 100%;
   img {
-    width: 80%;
+    width: 100%;
   }
-`;
-
-const Section2 = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  padding: 10px;
-  color: ${(props) => (props.atTop ? "white" : "black")};
-  margin-left: 0px;
 `;
 
 const UserIcon = styled(RiUserLine)`
@@ -64,45 +79,127 @@ const UserIcon = styled(RiUserLine)`
   color: ${(props) => (props.atTop ? "white" : "black")};
 `;
 
-const BasketIcon = styled(SlBasket)`
-  font-size: 25px;
-  cursor: pointer;
-  color: ${(props) => (props.atTop ? "white" : "black")};
-`;
-
-const SearchIcon = styled(IoSearchOutline)`
-  font-size: 25px;
-  cursor: pointer;
-  color: ${(props) => (props.atTop ? "white" : "black")};
-`;
-
-const LogoutButton = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: ${(props) => (props.atTop ? "white" : "black")};
-  font-size: 18px;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  padding: 0;
-  margin-left: 10px;
-
-  &:hover {
-    text-decoration: underline;
+const slideIn = keyframes`
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
   }
 `;
+
+const slideOut = keyframes`
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+`;
+
+const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.1);
+  z-index: 99;
+`;
+
+const RightMenuModal = styled.div`
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 400px;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  animation: ${(props) => (props.isClosing ? slideOut : slideIn)} 0.3s forwards;
+`;
+
+const ModalHeader = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  border-bottom: 1px solid #e8e8e8;
+  height: 60px;
+  border: solid 1px;
+`;
+
+const CloseIcon = styled(IoCloseOutline)`
+  font-size: 36px;
+  cursor: pointer;
+`;
+
+const ModalMain = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 400px;
+  border: solid 1px;
+  position: relative;
+`;
+
+const ModalLogo = styled.div`
+  width: 100%;
+  height: 100px;
+  img {
+    width: 25%;
+    height: 30%;
+  }
+  position: absolute;
+  top: 200px;
+`
+
+const MainText = styled.div`
+  position: absolute;
+  top: 260px;
+  font-size: 28px;
+  font-weight: bold;
+`
+
+const MainText2 = styled.div`
+  position: absolute;
+  top: 300px;
+  font-size: 28px;
+  font-weight: bold;
+`
+
+const ModalFooter = styled.div`
+  height: 100px;
+  padding-right: 180px;
+  border: solid 1px;
+  display: flex;
+  align-items: center;
+`;
+
+const FooterText = styled.div`
+  height: 24px;
+  font-size: 14px;
+  color: #1a1a1a;
+`
 
 const LinkStyle = (atTop) => ({
   textDecoration: "none",
   color: atTop ? "white" : "black",
 });
 
+const LinkStyle2 = {
+  textDecoration: "none",
+  color: "black"
+}
+
 const Header = ({ isHome }) => {
   const [hidden, setHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [atTop, setAtTop] = useState(isHome);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -138,6 +235,9 @@ const Header = ({ isHome }) => {
     if (!isLoggedIn) {
       navigate("/signin");
     }
+    else {
+      navigate("/mypage");
+    }
   };
 
   const handleLogout = () => {
@@ -146,45 +246,116 @@ const Header = ({ isHome }) => {
     navigate("/");
   };
 
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+    setIsClosing(false);
+  }
+
+  const handleModalClose = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setIsModalOpen(false);
+    }, 300);
+  }
+
+  const handleLoginClick = () => {
+    if (isLoggedIn) {
+      handleLogout();
+    } else {
+      navigate("/signin");
+    }
+  };
+
+  const handleSignupClick = () => {
+    if (isLoggedIn) {
+      navigate("/mypage");
+    } else {
+      navigate("/signup");
+    }
+  };
+
+  const handleCustomClick = () => {
+    if (isLoggedIn) {
+      navigate("/customselect");
+    } else {
+      navigate("/signup");
+    }
+  }
+
   return (
     <Container hidden={hidden} atTop={atTop} isHome={isHome}>
       <Frame>
-        <Section1>
+        <Section2>        
           <Logo>
             <a href="/" style={LinkStyle(atTop)}>
               <img src="/images/logo.png" alt="Logo" />
             </a>
           </Logo>
-        </Section1>
+        </Section2>
 
         <Spacer />
 
-        <Section2 atTop={atTop}>
-          <h4>챗봇상담</h4>
-        </Section2>
+        <Section1 atTop={atTop}>
+          <h4 style={{cursor:"pointer"}} onClick={handleCustomClick}>Custom</h4>
+        </Section1>
 
-        <Section2 atTop={atTop}>
-          <SearchIcon atTop={atTop} />
-        </Section2>
+        <Section1
+            style={{ cursor: "pointer", display: "flex", alignItems: "center" }}>
+            <HeartIcon atTop={atTop} />
+        </Section1>
 
-        <Section2 atTop={atTop}>
-          <div
+        <Section1
             onClick={handleUserIconClick}
-            style={{ cursor: "pointer", display: "flex", alignItems: "center" }}
-          >
+            style={{ cursor: "pointer", display: "flex", alignItems: "center" }}>
             <UserIcon atTop={atTop} />
-          </div>
-        </Section2>
+        </Section1>
 
-        <Section2 atTop={atTop}>
-          {isLoggedIn && (
-            <LogoutButton atTop={atTop} onClick={handleLogout}>
-              <IoPowerSharp style={{ marginRight: "5px" }} />
-              로그아웃
-            </LogoutButton>
-          )}
-        </Section2>
+        <Section1>
+          <MenuIcon atTop={atTop} onClick={handleModalOpen} />
+        </Section1>
       </Frame>
+
+      {isModalOpen && (
+        <>
+          <Overlay onClick={handleModalClose} />
+          <RightMenuModal isClosing={isClosing}>
+            <ModalHeader>
+              <CloseIcon onClick={handleModalClose} />
+            </ModalHeader>
+
+            <ModalMain>
+              <ModalLogo>
+              <a href="/">
+                <img src="/images/logo.png" alt="Logo" />
+              </a>
+            </ModalLogo>
+            <MainText>
+              <a href="/Contact" style={LinkStyle2}>
+                <p>Contact</p>
+              </a>
+              </MainText>
+
+              <MainText2>
+              <a href="/Contact" style={LinkStyle2}>
+                <p>Introduction</p>
+              </a>
+              </MainText2>
+            </ModalMain>
+
+            <ModalFooter>
+              <FooterText onClick={handleLoginClick} style={{ cursor: "pointer"}}>
+                {isLoggedIn ? "로그아웃" : "로그인"}
+              </FooterText>
+
+              <span style={{color:"#bbbbbb", margin:"0 5px 5px 5px"}}>·</span>
+
+              <FooterText onClick={handleSignupClick} style={{ cursor: "pointer" }}>
+                {isLoggedIn ? "마이페이지" : "회원가입"}
+              </FooterText>
+            </ModalFooter>
+          </RightMenuModal>
+        </>
+      )}
     </Container>
   );
 };

@@ -8,6 +8,7 @@ import CustomSelect from "./pages/CustomSelect";
 import Custom from "./pages/Custom";
 import Mypage from "./pages/Mypage";
 import Purchase from "./pages/Purchase";
+import Contact from "./pages/Contact";
 import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
         <Route path="/Custom" element={<Custom/>}/>
         <Route path="/Mypage" element={<Mypage/>}/>
         <Route path="/Purchase" element={<Purchase/>}/>
+        <Route path="/Contact" element={<Contact/>}/>
       </Routes>
     </BrowserRouter>
   );
