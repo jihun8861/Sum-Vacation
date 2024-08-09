@@ -7,7 +7,6 @@ import { FaArrowUp } from "react-icons/fa";
 import { AiOutlineMessage } from "react-icons/ai";
 import { TbArrowsDiagonalMinimize2 } from "react-icons/tb";
 import { FiSend } from "react-icons/fi";
-import { RiRobot2Line } from "react-icons/ri";
 
 const Container = styled.div`
   width: 100%;
@@ -117,7 +116,8 @@ const ModalHeader = styled.div`
 const Logo = styled.img`
   display: flex;
   width: 25%;
-  height: 70%;
+  height: 60%;
+  margin-right: 10px;
 `;
 
 const MessagesContainer = styled.div`
@@ -137,9 +137,9 @@ const Message = styled.div`
   background-color: ${(props) => (props.isUser ? "#6d8cff" : "#f2f3f5")};
   color: ${(props) => (props.isUser ? "white" : "black")};  // 변경된 부분
   font-size: 17px;
-  border-radius: 8px;
+  border-radius: 12px;
   align-self: ${(props) => (props.isUser ? "flex-end" : "flex-start")};
-  max-width: 90%;
+  max-width: 95%;
   word-wrap: break-word;
 `;
 
@@ -189,7 +189,8 @@ const Layout = ({ isHome, children, hideFooter  }) => {
       { 
         text: (
           <>
-            안녕하세요. Tabs 챗봇이에요.<br/><br/>
+            안녕하세요.<br/>
+            키보드 고민을 도와드리는 Tabs 챗봇이에요.<br/><br/>
             무엇을 도와드릴까요? <br/><br/>원하는 시는 키보드 스타일을 채팅으로 물어보세요!
           </>
         ), 
@@ -210,23 +211,41 @@ const Layout = ({ isHome, children, hideFooter  }) => {
     setMessages(newMessages);
 
     try {
-      const response = await axios.post(
-        "https://port-0-edcustom-lxx5p8dd0617fae9.sel5.cloudtype.app/ai/generate",
-        { 
-          message: inputMessage 
-        }
-      );
+        const response = await axios.post(
+            "https://port-0-edcustom-lxx5p8dd0617fae9.sel5.cloudtype.app/ai/generate",
+            { 
+                message: inputMessage 
+            }
+        );
 
-      console.log("Server response:", response.data.generation.output.content);
+        let botResponse = response.data.generation.output.content;
 
-      setMessages([...newMessages, { text: response.data.generation.output.content, isUser: false }]);
+        // 줄바꿈 처리를 위해 <br/> 태그를 실제 줄바꿈으로 변경
+        botResponse = botResponse
+            .replace(/\*\*/g, "")            // ** 제거
+            .replace(/###/g, "")             // ### 제거
+            .replace(/<br\/>/g, "\n");       // <br/> 태그를 실제 줄바꿈으로 변경
+
+        console.log("Server response:", botResponse);
+
+        // 응답을 줄바꿈 기준으로 나누어 JSX 요소로 변환
+        const formattedResponse = botResponse.split('\n').map((line, index) => (
+            <React.Fragment key={index}>
+                {line}
+                <br />
+            </React.Fragment>
+        ));
+
+        setMessages([...newMessages, { text: formattedResponse, isUser: false }]);
     } catch (error) {
-      console.error("Error sending message:", error);
-      setMessages([...newMessages, { text: "Error: Could not send message", isUser: false }]);
+        console.error("Error sending message:", error);
+        setMessages([...newMessages, { text: "Error: Could not send message", isUser: false }]);
     }
 
     setInputMessage("");
-  };
+};
+
+ 
 
   useEffect(() => {
     if (messagesEndRef.current) {

@@ -1,12 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls, useGLTF } from '@react-three/drei';
-import styled from 'styled-components';
-import * as THREE from 'three';
-import { useLocation } from 'react-router-dom';
-import Layout from '../components/Layout';
-import { FaArrowRotateRight } from 'react-icons/fa6';
-import { FaRegHeart } from 'react-icons/fa';
+import React, { useRef } from "react";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls, useGLTF } from "@react-three/drei";
+import styled from "styled-components";
+import { useLocation } from "react-router-dom";
+import Layout from "../components/Layout";
+import { FaArrowRotateRight } from "react-icons/fa6";
+import { FaRegHeart } from "react-icons/fa";
 
 const Container = styled.div`
   width: 100%;
@@ -36,7 +35,7 @@ const HeaderFrame = styled.div`
 const Logo = styled.div`
   width: 160px;
   height: 80%;
-  background-image: url('/images/logo2.png');
+  background-image: url("/images/logo2.png");
   background-size: 100% 100%;
   background-position: center;
   margin-right: 10px;
@@ -145,40 +144,24 @@ const ColorOption = styled.div`
   border-radius: 50%;
 `;
 
-const colors = [
-  '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF',
-  '#800000', '#008000', '#000080', '#808000', '#800080', '#008080',
-];
+const Model = () => {
+  // GLTF 파일을 로드하고, 로드된 scene 객체를 반환합니다.
+  const { scene } = useGLTF("/models/keyboard.glb");
 
-const Model = ({ path, color }) => {
-  const { scene } = useGLTF(path);
-  const pivot = useRef(new THREE.Group());
+  // 모델의 크기 확대
+  scene.scale.set(600, 600, 600);
 
-  useEffect(() => {
-    const box = new THREE.Box3().setFromObject(scene);
-    const center = new THREE.Vector3();
-    box.getCenter(center);
-    scene.position.sub(center); // 모델의 중심점을 원점으로 이동
+  // 모델의 위치 조정 x,y,z축 좌표
+  scene.position.set(0, 0, 0);
 
-    pivot.current.add(scene);
-  }, [scene]);
-
-  useEffect(() => {
-    scene.traverse((child) => {
-      if (child.isMesh) {
-        child.material = new THREE.MeshStandardMaterial({ color: color });
-      }
-    });
-  }, [scene, color]);
-
-  return <primitive object={pivot.current} position={[0, -1, 0]} scale={[5, 5, 5]} />;
+  return <primitive object={scene} />;
 };
 
 const CustomContent = () => {
   const location = useLocation();
-  const { text } = location.state || { text: 'No selection' };
+  const { text } = location.state || { text: "No selection" };
 
-  const [modelColor, setModelColor] = useState('#ffffff'); // 초기 색상은 흰색
+  const controlsRef = useRef();
 
   return (
     <Container>
@@ -207,22 +190,27 @@ const CustomContent = () => {
             <SelectText>KeyCap</SelectText>
           </MainSelect>
 
-          <Canvas camera={{ position: [0, 10, 1.5], fov: 30 }}>
-            <ambientLight />
-            <pointLight position={[0, 0, 0]} />
-            <Model path="/models/keycap.glb" color={modelColor} />
-            <OrbitControls minDistance={1.2} maxDistance={2} zoomSpeed={0.5} />
+          <Canvas
+            camera={{ position: [0, 180, 100], fov: 60 }} // fov는 시야각
+            style={{ width: "100%", height: "100%" }}
+          >
+            <OrbitControls
+              ref={controlsRef}
+              target={[0, 0, 0]}  // 모델의 중심 좌표를 기준으로 OrbitControls의 타겟 설정
+              enablePan={false} // 마우스 오른쪽 버튼을 클릭하여 움직임
+              enableZoom={true} //줌 인 줌 아웃 여부
+              zoomSpeed={0.15} // 줌 스피드
+              minDistance={80} // 더 가까이 줌인할 수 있게 설정합니다.
+              maxDistance={120} // 줌 아웃할 수 있는 최대 거리를 설정합니다.
+              enableRotate={true} // 카메라 회전 기능 활성화 여부
+              rotateSpeed={0.4} // 카메라 회전 속도
+              minPolarAngle={Math.PI / 4} // 카메라가 아래로 회전할 수 있는 각도 제한 (45도)
+              maxPolarAngle={Math.PI / 2} // 카메라가 위로 회전할 수 있는 각도 제한 (90도)
+            />
+            <ambientLight intensity={0.5} />
+            <directionalLight position={[10, 10, 5]} intensity={1} />
+            <Model />
           </Canvas>
-
-          <ColorFrame>
-            {colors.map((color) => (
-              <ColorOption
-                key={color}
-                color={color}
-                onClick={() => setModelColor(color)}
-              />
-            ))}
-          </ColorFrame>
         </MainFrame>
       </Frame>
     </Container>
@@ -230,7 +218,9 @@ const CustomContent = () => {
 };
 
 const Custom = () => {
-  return <Layout isHome={false} hideFooter={true} children={<CustomContent />} />;
+  return (
+    <Layout isHome={false} hideFooter={true} children={<CustomContent />} />
+  );
 };
 
 export default Custom;

@@ -28,7 +28,6 @@ const Frame = styled.div`
   align-items: center;
 `;
 
-
 const Section2 = styled.div`
   display: flex;
   width: auto;
@@ -41,7 +40,7 @@ const Section1 = styled.div`
   align-items: center;
   justify-content: center;
   height: 100%;
-  padding: 10px;
+  padding: 5px;
   color: ${(props) => (props.atTop ? "white" : "black")};
 `;
 
@@ -50,7 +49,7 @@ const HeartIcon = styled(FaRegHeart)`
   cursor: pointer;
   color: ${(props) => (props.atTop ? "white" : "black")};
   margin: 10px 10px;
-`
+`;
 
 const MenuIcon = styled(RxHamburgerMenu)`
   font-size: 28px;
@@ -153,21 +152,28 @@ const ModalLogo = styled.div`
   }
   position: absolute;
   top: 200px;
-`
+`;
 
 const MainText = styled.div`
   position: absolute;
-  top: 260px;
-  font-size: 28px;
+  top: 240px;
+  font-size: 27px;
   font-weight: bold;
-`
+`;
 
 const MainText2 = styled.div`
   position: absolute;
-  top: 300px;
+  top: 280px;
+  font-size: 27px;
+  font-weight: bold;
+`;
+
+const MainText3 = styled.div`
+  position: absolute;
+  top: 340px;
   font-size: 28px;
   font-weight: bold;
-`
+`;
 
 const ModalFooter = styled.div`
   height: 100px;
@@ -181,7 +187,7 @@ const FooterText = styled.div`
   height: 24px;
   font-size: 14px;
   color: #1a1a1a;
-`
+`;
 
 const LinkStyle = (atTop) => ({
   textDecoration: "none",
@@ -190,8 +196,8 @@ const LinkStyle = (atTop) => ({
 
 const LinkStyle2 = {
   textDecoration: "none",
-  color: "black"
-}
+  color: "black",
+};
 
 const Header = ({ isHome }) => {
   const [hidden, setHidden] = useState(false);
@@ -234,8 +240,7 @@ const Header = ({ isHome }) => {
   const handleUserIconClick = () => {
     if (!isLoggedIn) {
       navigate("/signin");
-    }
-    else {
+    } else {
       navigate("/mypage");
     }
   };
@@ -249,14 +254,14 @@ const Header = ({ isHome }) => {
   const handleModalOpen = () => {
     setIsModalOpen(true);
     setIsClosing(false);
-  }
+  };
 
   const handleModalClose = () => {
     setIsClosing(true);
     setTimeout(() => {
       setIsModalOpen(false);
     }, 300);
-  }
+  };
 
   const handleLoginClick = () => {
     if (isLoggedIn) {
@@ -274,18 +279,27 @@ const Header = ({ isHome }) => {
     }
   };
 
+  const handleMyPageClick = () => {
+    if (isLoggedIn) {
+      navigate("/mypage");
+    } else {
+      navigate("/signin");
+    }
+  };
+  
+
   const handleCustomClick = () => {
     if (isLoggedIn) {
       navigate("/customselect");
     } else {
       navigate("/signup");
     }
-  }
+  };
 
   return (
     <Container hidden={hidden} atTop={atTop} isHome={isHome}>
       <Frame>
-        <Section2>        
+        <Section2>
           <Logo>
             <a href="/" style={LinkStyle(atTop)}>
               <img src="/images/logo.png" alt="Logo" />
@@ -296,18 +310,22 @@ const Header = ({ isHome }) => {
         <Spacer />
 
         <Section1 atTop={atTop}>
-          <h4 style={{cursor:"pointer"}} onClick={handleCustomClick}>Custom</h4>
+          <h4 style={{ cursor: "pointer" }} onClick={handleCustomClick}>
+            Custom
+          </h4>
         </Section1>
 
         <Section1
-            style={{ cursor: "pointer", display: "flex", alignItems: "center" }}>
-            <HeartIcon atTop={atTop} />
+          style={{ cursor: "pointer", display: "flex", alignItems: "center" }}
+        >
+          <HeartIcon atTop={atTop} />
         </Section1>
 
         <Section1
-            onClick={handleUserIconClick}
-            style={{ cursor: "pointer", display: "flex", alignItems: "center" }}>
-            <UserIcon atTop={atTop} />
+          onClick={handleUserIconClick}
+          style={{ cursor: "pointer", display: "flex", alignItems: "center" }}
+        >
+          <UserIcon atTop={atTop} />
         </Section1>
 
         <Section1>
@@ -325,32 +343,46 @@ const Header = ({ isHome }) => {
 
             <ModalMain>
               <ModalLogo>
-              <a href="/">
-                <img src="/images/logo.png" alt="Logo" />
-              </a>
-            </ModalLogo>
-            <MainText>
-              <a href="/Contact" style={LinkStyle2}>
-                <p>Contact</p>
-              </a>
+                <a href="/">
+                  <img src="/images/logo.png" alt="Logo" />
+                </a>
+              </ModalLogo>
+
+              <MainText>
+                <a href="/Contact" style={LinkStyle2}>
+                  <p>Contact</p>
+                </a>
               </MainText>
 
-              <MainText2>
-              <a href="/Contact" style={LinkStyle2}>
-                <p>Introduction</p>
-              </a>
+              {/* My Page Link */}
+              <MainText2 onClick={handleMyPageClick}>
+                <p style={{ cursor: "pointer", color: "black" }}>My Page</p>
               </MainText2>
+              
             </ModalMain>
 
             <ModalFooter>
-              <FooterText onClick={handleLoginClick} style={{ cursor: "pointer"}}>
+              <FooterText
+                onClick={handleLoginClick}
+                style={{ cursor: "pointer" }}
+              >
                 {isLoggedIn ? "로그아웃" : "로그인"}
               </FooterText>
 
-              <span style={{color:"#bbbbbb", margin:"0 5px 5px 5px"}}>·</span>
+              <span
+                style={{
+                  color: "#bbbbbb",
+                  margin: "0 5px 5px 5px",
+                }}
+              >
+                ·
+              </span>
 
-              <FooterText onClick={handleSignupClick} style={{ cursor: "pointer" }}>
-                {isLoggedIn ? "마이페이지" : "회원가입"}
+              <FooterText
+                onClick={handleSignupClick}
+                style={{ cursor: "pointer" }}
+              >
+                {isLoggedIn ? "" : "회원가입"}
               </FooterText>
             </ModalFooter>
           </RightMenuModal>
