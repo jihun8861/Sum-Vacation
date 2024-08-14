@@ -168,13 +168,6 @@ const MainText2 = styled.div`
   font-weight: bold;
 `;
 
-const MainText3 = styled.div`
-  position: absolute;
-  top: 340px;
-  font-size: 28px;
-  font-weight: bold;
-`;
-
 const ModalFooter = styled.div`
   height: 100px;
   padding-right: 180px;
